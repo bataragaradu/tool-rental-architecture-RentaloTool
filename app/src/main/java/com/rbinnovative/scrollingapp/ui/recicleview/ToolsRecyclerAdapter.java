@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.rbinnovative.scrollingapp.R;
 import com.rbinnovative.scrollingapp.model.MyListData;
 
-public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder>{
+public class ToolsRecyclerAdapter extends RecyclerView.Adapter<ToolsRecyclerAdapter.ViewHolder>{
+
     private MyListData[] listdata;
 
-    // RecyclerView recyclerView;
-    public MyListAdapter(MyListData[] listdata) {
+    public ToolsRecyclerAdapter(MyListData[] listdata) {
         this.listdata = listdata;
     }
     @Override
@@ -28,16 +28,12 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        final MyListData myListData = listdata[position];
-        holder.textView.setText(listdata[position].getDescription());
-        holder.imageView.setImageResource(listdata[position].getImgId());
-        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(),"click on item: "+myListData.getDescription(),Toast.LENGTH_LONG).show();
-            }
-        });
+    public void onBindViewHolder(ViewHolder holder, int postiionSelected) {
+        final MyListData myListData = listdata[postiionSelected];
+
+        holder.textView.setText(listdata[postiionSelected].getDescription());
+        holder.imageView.setImageResource(listdata[postiionSelected].getImgId());
+        holder.relativeLayout.setOnClickListener(view -> Toast.makeText(view.getContext(),"click on item: "+myListData.getDescription(),Toast.LENGTH_LONG).show());
     }
 
     @Override
@@ -49,6 +45,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
         public ImageView imageView;
         public TextView textView;
         public RelativeLayout relativeLayout;
+
         public ViewHolder(View itemView) {
             super(itemView);
             this.imageView = (ImageView) itemView.findViewById(R.id.imageView);

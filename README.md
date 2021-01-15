@@ -17,3 +17,11 @@ Classes that wants dependenecies injection have to mention Dagger they are the o
 } and  ((MainApplication) getApplicationContext()).appComponent.inject(this), where appComponent is an instance of the generated DaggerOwnerClass.
 or via
  toolService = DaggerRepositoryToolIoC.builder().build().toolService();
+
+
+ Issues:
+
+ ## comptability between android dependencies
+ ## butterknife
+ ## dagger
+ ## ui setup

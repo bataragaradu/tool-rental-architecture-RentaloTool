@@ -6,7 +6,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.rbinnovative.scrollingapp.R;
 import com.rbinnovative.scrollingapp.repository.ToolService;
-import com.rbinnovative.scrollingapp.ui.recicleview.MyListAdapter;
+import com.rbinnovative.scrollingapp.ui.recicleview.ToolsRecyclerAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -52,7 +52,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
     private void prepareAndPopulateRecyclerView() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        MyListAdapter adapter = new MyListAdapter(toolService.initDataSet());
+        ToolsRecyclerAdapter adapter = new ToolsRecyclerAdapter(toolService.initDataSet());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
