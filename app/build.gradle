@@ -29,16 +29,23 @@ android {
 }
 
 dependencies {
-
-    implementation 'com.jakewharton:butterknife:8.8.1'
+//  UI
     implementation 'com.google.android.material:material:1.2.1'
-//    implementation 'com.android.support:appcompat-v7:26.0.0'
-//    implementation 'com.android.support:design:28.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+//  Testing
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation 'com.google.android.material:material:1.2.1'
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+//  Butterknife
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+//  Dagger
+    implementation 'com.google.dagger:dagger:2.31'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.31'
+    // for acitivities
+    implementation 'com.google.dagger:dagger-android:2.31'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.31'
+    implementation 'com.google.dagger:dagger-android-support:2.10'
 }

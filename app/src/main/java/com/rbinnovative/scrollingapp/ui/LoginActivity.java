@@ -7,11 +7,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.rbinnovative.scrollingapp.R;
+import com.rbinnovative.scrollingapp.repository.ToolRepository;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,21 +24,19 @@ import butterknife.ButterKnife;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = LoginActivity.class.getSimpleName();
-
+    @Inject
+    ToolRepository toolRepository;
     private static final int REQUEST_SIGNUP = 0;
     private static final String USERNAME = "username";
-//    private AuthentificationController authentificationController;
+//        private AuthentificationController authentificationController;
     private Snackbar snackbar;
 
     @BindView(R.id.input_email)
     EditText _emailText;
-
     @BindView(R.id.input_password)
     EditText _passwordText;
-
     @BindView(R.id.btn_login)
     Button _loginButton;
-
     @BindView(R.id.link_signup)
     TextView _signupLink;
 
@@ -75,14 +77,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private void registerClicked() {
         // Start the Signup activity
-        Intent intent = new Intent(getApplicationContext(), ScrollingActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
         startActivityForResult(intent, REQUEST_SIGNUP);
         finish();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     private void loginClicked() {
-
         Log.d(TAG, "Login");
         if (!validate()) {
             onLoginFailed();
@@ -104,13 +105,13 @@ public class LoginActivity extends AppCompatActivity {
     private boolean validate() {
 
         boolean valid = true;
-        if ( _emailText.getText().toString().isEmpty()) {
+        if (_emailText.getText().toString().isEmpty()) {
             _emailText.setError("enter a valid email address");
             valid = false;
         } else {
             _emailText.setError(null);
         }
-        if ( _passwordText.getText().toString().isEmpty()) {
+        if (_passwordText.getText().toString().isEmpty()) {
             _passwordText.setError("between 4 and 10 alphanumeric characters");
             valid = false;
         } else {
