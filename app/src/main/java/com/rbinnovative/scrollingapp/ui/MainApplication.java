@@ -1,20 +1,19 @@
 package com.rbinnovative.scrollingapp.ui;
 
+
 import android.app.Application;
 
-public class MainApplication extends Application {
-//    ApplicationComponent appComponent = DaggerApplicationComponent.create();
-//    private AuthentificationController controler;
+import com.rbinnovative.scrollingapp.config.DaggerRepositoryToolIoC;
+import com.rbinnovative.scrollingapp.config.RepositoryToolIoC;
 
+
+public class MainApplication extends Application {
+//    private AuthentificationController controler;
+    RepositoryToolIoC appComponent = DaggerRepositoryToolIoC.create();
     @Override
     public void onCreate() {
         super.onCreate();
-//        DaggerMyApplicationComponent.create().inject(this);
-//        ApplicationComponent appComponent = DaggerApplicationComponent.create();
 //        controler = new AuthentificationControllerImpl(new OkHttpClient());
     }
 
-//    public AuthentificationController getControler() {
-//        return controler;
-//    }
 }

@@ -7,15 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.rbinnovative.scrollingapp.R;
-import com.rbinnovative.scrollingapp.repository.ToolRepository;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,11 +20,9 @@ import butterknife.ButterKnife;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = LoginActivity.class.getSimpleName();
-    @Inject
-    ToolRepository toolRepository;
+
     private static final int REQUEST_SIGNUP = 0;
     private static final String USERNAME = "username";
-//        private AuthentificationController authentificationController;
     private Snackbar snackbar;
 
     @BindView(R.id.input_email)
