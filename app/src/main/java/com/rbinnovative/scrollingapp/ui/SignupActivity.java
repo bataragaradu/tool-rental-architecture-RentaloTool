@@ -34,7 +34,6 @@ public class SignupActivity extends AppCompatActivity {
     @BindView(R.id.link_login)
     TextView _loginLink;
     private Snackbar snackbar;
-//    private AuthentificationController loginController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,6 @@ public class SignupActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         MainApplication mainApplication = (MainApplication) getApplication();
 //        loginController = mainApplication.getControler();
-
         _signupButton.setOnClickListener(v -> signup());
         snackbar = Snackbar.make(findViewById(R.id.btn_signup), "Signing your account, please wait .. ", Snackbar
                 .LENGTH_INDEFINITE);

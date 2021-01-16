@@ -7,12 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.rbinnovative.scrollingapp.R;
-
+import com.rbinnovative.scrollingapp.service.ValidationService;
+import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -24,6 +23,9 @@ public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_SIGNUP = 0;
     private static final String USERNAME = "username";
     private Snackbar snackbar;
+
+    @Inject
+    ValidationService validationService;
 
     @BindView(R.id.input_email)
     EditText _emailText;
@@ -37,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // dagger
+        ((MainApplication) getApplicationContext()).validationIoC.inject(this);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         snackbar = Snackbar.make(findViewById(R.id.btn_login), "Login, please wait .. ", Snackbar.LENGTH_INDEFINITE);
@@ -79,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginClicked() {
         Log.d(TAG, "Login");
-        if (!validate()) {
+        if (!validationService.validateLoginAction(_emailText, _passwordText)) {
             onLoginFailed();
             return;
         }
@@ -87,30 +91,9 @@ public class LoginActivity extends AppCompatActivity {
         snackbar.show();
         String username = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
-        Intent intent = new Intent(getApplicationContext(), ScrollingActivity.class);
-        startActivityForResult(intent, REQUEST_SIGNUP);
-        finish();
-        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        onLoginSuccess("hardcoded-token");
 //        authentificationController.login(username, password,
 //                ((token) -> runOnUiThread(() -> onLoginSuccess(token))),
 //                ((loginException) -> runOnUiThread(this::onLoginFailed)));
-    }
-
-    private boolean validate() {
-
-        boolean valid = true;
-        if (_emailText.getText().toString().isEmpty()) {
-            _emailText.setError("enter a valid email address");
-            valid = false;
-        } else {
-            _emailText.setError(null);
-        }
-        if (_passwordText.getText().toString().isEmpty()) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
-            valid = false;
-        } else {
-            _passwordText.setError(null);
-        }
-        return valid;
     }
 }

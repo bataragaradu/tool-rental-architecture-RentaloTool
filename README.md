@@ -20,8 +20,11 @@ or via
 
 
  Issues:
-
+ ## Remove in production the http(use https) and remove from manifest       android:usesCleartextTraffic="true"
+  https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted
  ## comptability between android dependencies
  ## butterknife
  ## dagger
  ## ui setup
+ ## Retrofit
+ ## Gson

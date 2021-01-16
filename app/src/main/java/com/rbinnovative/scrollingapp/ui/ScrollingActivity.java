@@ -5,7 +5,8 @@ import android.os.Bundle;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.rbinnovative.scrollingapp.R;
-import com.rbinnovative.scrollingapp.repository.ToolService;
+import com.rbinnovative.scrollingapp.model.Tool;
+import com.rbinnovative.scrollingapp.service.ToolService;
 import com.rbinnovative.scrollingapp.ui.recicleview.ToolsRecyclerAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +29,10 @@ public class ScrollingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ((MainApplication) getApplicationContext()).appComponent.inject(this);
         prepareUi();
-        prepareAndPopulateRecyclerView();
+//        prepareAndPopulateRecyclerView();
+        toolService.initDataSet(
+                ((successRetrievedTools) -> runOnUiThread(() -> this.prepareAndPopulateRecyclerView(successRetrievedTools))),
+                ((failureRetrieved) -> runOnUiThread(this::onRegisterFailed)));
     }
 
     @Override
@@ -50,20 +54,23 @@ public class ScrollingActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void prepareAndPopulateRecyclerView() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        ToolsRecyclerAdapter adapter = new ToolsRecyclerAdapter(toolService.initDataSet());
+    private void prepareAndPopulateRecyclerView(Tool[] tools) {
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        ToolsRecyclerAdapter adapter = new ToolsRecyclerAdapter(tools);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
 
+    private void onRegisterFailed() {
+    }
+
     private void prepareUi() {
         setContentView(R.layout.activity_scrolling);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        CollapsingToolbarLayout toolBarLayout = findViewById(R.id.toolbar_layout);
         toolBarLayout.setTitle(getTitle());
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
     }
 }

@@ -10,15 +10,16 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rbinnovative.scrollingapp.R;
-import com.rbinnovative.scrollingapp.model.MyListData;
+import com.rbinnovative.scrollingapp.model.Tool;
 
 public class ToolsRecyclerAdapter extends RecyclerView.Adapter<ToolsRecyclerAdapter.ViewHolder>{
 
-    private MyListData[] listdata;
+    private Tool[] listdata;
 
-    public ToolsRecyclerAdapter(MyListData[] listdata) {
+    public ToolsRecyclerAdapter(Tool[] listdata) {
         this.listdata = listdata;
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -29,11 +30,12 @@ public class ToolsRecyclerAdapter extends RecyclerView.Adapter<ToolsRecyclerAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int postiionSelected) {
-        final MyListData myListData = listdata[postiionSelected];
+        final Tool tool = listdata[postiionSelected];
 
-        holder.textView.setText(listdata[postiionSelected].getDescription());
-        holder.imageView.setImageResource(listdata[postiionSelected].getImgId());
-        holder.relativeLayout.setOnClickListener(view -> Toast.makeText(view.getContext(),"click on item: "+myListData.getDescription(),Toast.LENGTH_LONG).show());
+        holder.textView.setText(listdata[postiionSelected].getId());
+        //TODO: add image
+//        holder.imageView.setImageResource(listdata[postiionSelected].getName());
+        holder.relativeLayout.setOnClickListener(view -> Toast.makeText(view.getContext(),"click on item: "+ tool.getId(),Toast.LENGTH_LONG).show());
     }
 
     @Override
@@ -48,9 +50,9 @@ public class ToolsRecyclerAdapter extends RecyclerView.Adapter<ToolsRecyclerAdap
 
         public ViewHolder(View itemView) {
             super(itemView);
-            this.imageView = (ImageView) itemView.findViewById(R.id.imageView);
-            this.textView = (TextView) itemView.findViewById(R.id.textView);
-            relativeLayout = (RelativeLayout)itemView.findViewById(R.id.relativeLayout);
+            this.imageView = itemView.findViewById(R.id.imageView);
+            this.textView = itemView.findViewById(R.id.textView);
+            relativeLayout = itemView.findViewById(R.id.relativeLayout);
         }
     }
 }
