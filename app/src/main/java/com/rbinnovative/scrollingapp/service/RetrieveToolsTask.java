@@ -13,14 +13,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.rbinnovative.scrollingapp.utils.Constants.TOOLS_API__URL;
+
 class RetrieveToolsTask extends AsyncTask<Void, Void, Tool[]> {
 
-    private static final String TOOLS_API__URL = "http://192.168.0.195:8082/";
 
     private final OnSuccessListener<Tool[]> onSuccessListener;
-    private final OnErrorListener onErrorListener;
+    private final OnErrorListener<Tool[]> onErrorListener;
 
-    public RetrieveToolsTask(OnSuccessListener<Tool[]> onSuccessListener, OnErrorListener
+    public RetrieveToolsTask(OnSuccessListener<Tool[]> onSuccessListener, OnErrorListener<Tool[]>
             onErrorListener) {
         this.onSuccessListener = onSuccessListener;
         this.onErrorListener = onErrorListener;
@@ -38,11 +39,8 @@ class RetrieveToolsTask extends AsyncTask<Void, Void, Tool[]> {
         ToolsApi service = retrofit.create(ToolsApi.class);
 
         try {
-            Response<Tool> oneTool =
-                    service.getToolById(1).execute();
             Response<Tool[]> response =
                     service.getAllTools().execute();
-
             if (response.isSuccessful()) {
                 // success
                 result = response.body();
@@ -52,9 +50,7 @@ class RetrieveToolsTask extends AsyncTask<Void, Void, Tool[]> {
                 onSuccessListener.onSuccess(result);
             }
         } catch (IOException e) {
-            System.out.println(e);
-            onErrorListener.onFailure(e.getMessage());
-            // fail
+            onErrorListener.onFailure(result);
         }
         return result;
     }

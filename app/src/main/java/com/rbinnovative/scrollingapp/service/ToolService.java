@@ -22,7 +22,7 @@ public class ToolService {
     }
 
     public void initDataSet(final OnSuccessListener<Tool[]> onSuccessListener,
-                              final OnErrorListener onErrorListener) {
+                              final OnErrorListener<Tool[]> onErrorListener) {
         new RetrieveToolsTask(onSuccessListener, onErrorListener).execute();
     }
 

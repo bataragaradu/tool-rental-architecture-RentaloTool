@@ -24,16 +24,13 @@ public class ToolsRecyclerAdapter extends RecyclerView.Adapter<ToolsRecyclerAdap
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem= layoutInflater.inflate(R.layout.list_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(listItem);
-        return viewHolder;
+        return new ViewHolder(listItem);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int postiionSelected) {
-        final Tool tool = listdata[postiionSelected];
-
-        holder.textView.setText(listdata[postiionSelected].getId());
-        //TODO: add image
+    public void onBindViewHolder(ViewHolder holder, int positionSelected) {
+        final Tool tool = listdata[positionSelected];
+        holder.textView.setText(tool.getName());
 //        holder.imageView.setImageResource(listdata[postiionSelected].getName());
         holder.relativeLayout.setOnClickListener(view -> Toast.makeText(view.getContext(),"click on item: "+ tool.getId(),Toast.LENGTH_LONG).show());
     }

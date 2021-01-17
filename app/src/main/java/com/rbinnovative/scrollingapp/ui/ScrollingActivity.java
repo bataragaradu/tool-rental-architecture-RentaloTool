@@ -29,10 +29,9 @@ public class ScrollingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ((MainApplication) getApplicationContext()).appComponent.inject(this);
         prepareUi();
-//        prepareAndPopulateRecyclerView();
         toolService.initDataSet(
                 ((successRetrievedTools) -> runOnUiThread(() -> this.prepareAndPopulateRecyclerView(successRetrievedTools))),
-                ((failureRetrieved) -> runOnUiThread(this::onRegisterFailed)));
+                ((failureRetrieved) ->  runOnUiThread(() -> this.prepareAndPopulateRecyclerView(failureRetrieved))));
     }
 
     @Override
@@ -60,9 +59,6 @@ public class ScrollingActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-    }
-
-    private void onRegisterFailed() {
     }
 
     private void prepareUi() {
