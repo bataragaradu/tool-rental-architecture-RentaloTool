@@ -1,4 +1,4 @@
-package com.rbinnovative.scrollingapp.ui;
+package com.rbinnovative.scrollingapp.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.rbinnovative.scrollingapp.R;
 import com.rbinnovative.scrollingapp.service.ValidationService;
+
 import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;

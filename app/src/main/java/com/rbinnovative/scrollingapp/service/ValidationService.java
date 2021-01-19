@@ -26,4 +26,42 @@ public class ValidationService {
         }
         return valid;
     }
+
+    public boolean validateSignup(EditText nameText, EditText emailText, EditText passwordText, EditText reEnterPasswordText) {
+        boolean valid = true;
+
+        String name = nameText.getText().toString();
+        String email = emailText.getText().toString();
+        String password = passwordText.getText().toString();
+        String reEnterPassword = reEnterPasswordText.getText().toString();
+
+        if (name.isEmpty() || name.length() < 3) {
+            nameText.setError("at least 3 characters");
+            valid = false;
+        } else {
+            nameText.setError(null);
+        }
+
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailText.setError("enter a valid email address");
+            valid = false;
+        } else {
+            emailText.setError(null);
+        }
+
+        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+            passwordText.setError("between 4 and 10 alphanumeric characters");
+            valid = false;
+        } else {
+            passwordText.setError(null);
+        }
+
+        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
+            reEnterPasswordText.setError("Password Do not match");
+            valid = false;
+        } else {
+            reEnterPasswordText.setError(null);
+        }
+        return valid;
+    }
 }

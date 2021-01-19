@@ -1,10 +1,11 @@
-package com.rbinnovative.scrollingapp.ui;
+package com.rbinnovative.scrollingapp.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.rbinnovative.scrollingapp.R;
+import com.rbinnovative.scrollingapp.service.ValidationService;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,13 +15,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SignupActivity extends AppCompatActivity {
 
     public static final String TAG = SignupActivity.class.getSimpleName();
-
+    @Inject
+    ValidationService validationService;
     @BindView(R.id.input_name)
     EditText _nameText;
     @BindView(R.id.input_email)
@@ -38,6 +42,7 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainApplication) getApplicationContext()).validationIoC.inject(this);
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
         MainApplication mainApplication = (MainApplication) getApplication();
@@ -61,17 +66,14 @@ public class SignupActivity extends AppCompatActivity {
 
     private void signup() {
         Log.d(TAG, "Signup");
-
-        if (!validate()) {
+        if (!validationService.validateSignup(_nameText, _emailText, _passwordText, _reEnterPasswordText)) {
             onRegisterFailed();
             return;
         }
         _signupButton.setEnabled(false);
         snackbar.show();
-
         String name = _nameText.getText().toString();
         String password = _passwordText.getText().toString();
-
         onRegisterSuccess();
 //        loginController.register(name, password,
 //                ((successMessage) -> runOnUiThread(this::onRegisterSuccess)),
@@ -93,43 +95,5 @@ public class SignupActivity extends AppCompatActivity {
         snackbar.dismiss();
         finish();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-    }
-
-    private boolean validate() {
-        boolean valid = true;
-
-        String name = _nameText.getText().toString();
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-        String reEnterPassword = _reEnterPasswordText.getText().toString();
-
-        if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("at least 3 characters");
-            valid = false;
-        } else {
-            _nameText.setError(null);
-        }
-
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
-            valid = false;
-        } else {
-            _emailText.setError(null);
-        }
-
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
-            valid = false;
-        } else {
-            _passwordText.setError(null);
-        }
-
-        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
-            _reEnterPasswordText.setError("Password Do not match");
-            valid = false;
-        } else {
-            _reEnterPasswordText.setError(null);
-        }
-        return valid;
     }
 }

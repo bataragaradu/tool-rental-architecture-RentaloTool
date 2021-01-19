@@ -17,7 +17,6 @@ import static com.rbinnovative.scrollingapp.utils.Constants.TOOLS_API__URL;
 
 class RetrieveToolsTask extends AsyncTask<Void, Void, Tool[]> {
 
-
     private final OnSuccessListener<Tool[]> onSuccessListener;
     private final OnErrorListener<Tool[]> onErrorListener;
 

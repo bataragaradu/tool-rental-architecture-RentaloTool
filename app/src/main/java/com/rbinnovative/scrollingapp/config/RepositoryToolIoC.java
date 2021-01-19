@@ -1,7 +1,7 @@
 package com.rbinnovative.scrollingapp.config;
 
 import com.rbinnovative.scrollingapp.service.ToolService;
-import com.rbinnovative.scrollingapp.ui.ScrollingActivity;
+import com.rbinnovative.scrollingapp.ui.activity.ScrollingActivity;
 
 import javax.inject.Singleton;
 import dagger.Component;

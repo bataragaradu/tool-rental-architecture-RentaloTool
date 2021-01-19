@@ -1,4 +1,4 @@
-package com.rbinnovative.scrollingapp.ui;
+package com.rbinnovative.scrollingapp.ui.activity;
 
 import android.app.Application;
 import com.rbinnovative.scrollingapp.config.DaggerRepositoryToolIoC;

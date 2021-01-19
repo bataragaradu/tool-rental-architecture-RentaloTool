@@ -28,3 +28,9 @@ or via
  ## ui setup
  ## Retrofit
  ## Gson
+ ## Picasso
+ ## DatePicker
+
+TODO:
+Add on click activity and show the available dates for the selected tool.
+Add a chart and Paypal integration. See templates for Ecom projects.

@@ -7,6 +7,8 @@ public class Tool {
     private Integer id;
     @SerializedName("name")
     private String name;
+    @SerializedName("imageUrl")
+    private String imageUrl;
 
     public Tool() {
     }
@@ -30,6 +32,14 @@ public class Tool {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override

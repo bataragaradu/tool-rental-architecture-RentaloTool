@@ -1,4 +1,7 @@
 package com.rbinnovative.scrollingapp.ui.recicleview;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rbinnovative.scrollingapp.R;
 import com.rbinnovative.scrollingapp.model.Tool;
+import com.rbinnovative.scrollingapp.ui.activity.DetailedToolActivity;
+import com.squareup.picasso.Picasso;
 
 public class ToolsRecyclerAdapter extends RecyclerView.Adapter<ToolsRecyclerAdapter.ViewHolder>{
 
-    private Tool[] listdata;
+    public static final String TAG = ToolsRecyclerAdapter.class.getSimpleName();
 
-    public ToolsRecyclerAdapter(Tool[] listdata) {
-        this.listdata = listdata;
+    private final Context context;
+    private Tool[] listTools;
+
+    public ToolsRecyclerAdapter(Tool[] listTools, Context context) {
+        this.listTools = listTools;
+        this.context = context;
     }
 
     @Override
@@ -29,15 +38,27 @@ public class ToolsRecyclerAdapter extends RecyclerView.Adapter<ToolsRecyclerAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int positionSelected) {
-        final Tool tool = listdata[positionSelected];
+        final Tool tool = listTools[positionSelected];
         holder.textView.setText(tool.getName());
-//        holder.imageView.setImageResource(listdata[postiionSelected].getName());
-        holder.relativeLayout.setOnClickListener(view -> Toast.makeText(view.getContext(),"click on item: "+ tool.getId(),Toast.LENGTH_LONG).show());
+        Picasso.get()
+                .load(tool.getImageUrl())
+                .into(holder.imageView);
+        holder.relativeLayout.setOnClickListener(view -> loadOneToolActiviy(view, tool));
+    }
+
+    private void loadOneToolActiviy(View view, Tool tool) {
+        Log.d(TAG, "Pressed on tool:" + tool);
+        Intent intent = new Intent(view.getContext(), DetailedToolActivity.class);
+//        intent.getExtras().putInt("id", tool.getId().intValue());
+//        intent.getExtras().putString("name", tool.getName());
+//        intent.getExtras().putString("imageUrl", tool.getImageUrl());
+        context.startActivity(intent);
+        Toast.makeText(view.getContext(),"click on item: "+ tool.getId(),Toast.LENGTH_LONG).show();
     }
 
     @Override
     public int getItemCount() {
-        return listdata.length;
+        return listTools.length;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

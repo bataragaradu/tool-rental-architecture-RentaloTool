@@ -1,4 +1,4 @@
-package com.rbinnovative.scrollingapp.ui;
+package com.rbinnovative.scrollingapp.ui.activity;
 
 import android.os.Bundle;
 
@@ -30,8 +30,8 @@ public class ScrollingActivity extends AppCompatActivity {
         ((MainApplication) getApplicationContext()).appComponent.inject(this);
         prepareUi();
         toolService.initDataSet(
-                ((successRetrievedTools) -> runOnUiThread(() -> this.prepareAndPopulateRecyclerView(successRetrievedTools))),
-                ((failureRetrieved) ->  runOnUiThread(() -> this.prepareAndPopulateRecyclerView(failureRetrieved))));
+                ((successRetrievedTools) -> runOnUiThread(() -> prepareAndPopulateRecyclerView(successRetrievedTools))),
+                ((failureRetrieved) ->  runOnUiThread(() -> prepareAndPopulateRecyclerView(failureRetrieved))));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
     private void prepareAndPopulateRecyclerView(Tool[] tools) {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        ToolsRecyclerAdapter adapter = new ToolsRecyclerAdapter(tools);
+        ToolsRecyclerAdapter adapter = new ToolsRecyclerAdapter(tools, recyclerView.getContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);

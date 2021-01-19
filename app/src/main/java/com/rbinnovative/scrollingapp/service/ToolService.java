@@ -25,21 +25,4 @@ public class ToolService {
                               final OnErrorListener<Tool[]> onErrorListener) {
         new RetrieveToolsTask(onSuccessListener, onErrorListener).execute();
     }
-
-//    public Tool[] initDataSetOld() {
-//        return new Tool[]{
-//                new Tool("Email", android.R.drawable.ic_dialog_email),
-//                new Tool("Info", android.R.drawable.ic_dialog_info),
-//                new Tool("Delete", android.R.drawable.ic_delete),
-//                new Tool("Dialer", android.R.drawable.ic_dialog_dialer),
-//                new Tool("Alert", android.R.drawable.ic_dialog_alert),
-//                new Tool("Map", android.R.drawable.ic_dialog_map),
-//                new Tool("Email", android.R.drawable.ic_dialog_email),
-//                new Tool("Info", android.R.drawable.ic_dialog_info),
-//                new Tool("Delete", android.R.drawable.ic_delete),
-//                new Tool("Dialer", android.R.drawable.ic_dialog_dialer),
-//                new Tool("Alert", android.R.drawable.ic_dialog_alert),
-//                new Tool("Map", android.R.drawable.ic_dialog_map),
-//        };
-//    }
 }
