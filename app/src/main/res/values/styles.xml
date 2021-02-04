@@ -43,5 +43,7 @@
         <item name="android:textColorPrimary">@color/iron</item>
         <item name="android:background">@color/primary</item>
     </style>
+    <style name="ComponentAppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    </style>
 
 </resources>

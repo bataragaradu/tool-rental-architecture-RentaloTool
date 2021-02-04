@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     private void onLoginSuccess(String token) {
         _loginButton.setEnabled(false);
         snackbar.dismiss();
-        Intent intent = new Intent(getApplicationContext(), ScrollingActivity.class);
+        Intent intent = new Intent(getApplicationContext(), DetailedToolActivity.class);
         intent.putExtra("token", token);
         intent.putExtra(USERNAME, _emailText.getText().toString());
         startActivity(intent);
