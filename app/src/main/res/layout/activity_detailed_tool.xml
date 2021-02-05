@@ -100,8 +100,8 @@
         <DatePicker
             android:id="@+id/date_picker"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"/>
+            android:layout_height="93dp"
+            android:layout_margin="12dp" />
 
         <TextView
             android:id="@+id/date_selected_text_view"

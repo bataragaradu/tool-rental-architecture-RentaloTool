@@ -8,7 +8,6 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.util.Pair;
 
 import com.google.android.material.datepicker.CalendarConstraints;
@@ -17,12 +16,13 @@ import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.rbinnovative.scrollingapp.R;
-import com.rbinnovative.scrollingapp.service.RangeValidator;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,80 +79,39 @@ public class DetailedToolActivity extends AppCompatActivity {
     }
 
     private void onClickDate() {
-        setupRangePickerDialog();
+        selectReservationDate();
         dateValueTextView.setText("Selected date: " + (datePicker.getMonth() + 1) + "/" + datePicker.getDayOfMonth() + "/" + datePicker.getYear());
     }
 
-    private void setupRangePickerDialog() {
-        asd();
-//        MaterialDatePicker.Builder<Pair<Long, Long>> builderRange = MaterialDatePicker.Builder.dateRangePicker();
-//        builderRange.setCalendarConstraints(limitRange().build());
-//        MaterialDatePicker<Pair<Long, Long>> pickerRange = builderRange.build();
-//        pickerRange.show(this.getSupportFragmentManager(), pickerRange.toString());
+    private void selectReservationDate() {
+
+        CalendarConstraints.DateValidator validators = createValidators();
+        CalendarConstraints constraints = new CalendarConstraints.Builder()
+                .setValidator(validators)
+                .setStart(System.currentTimeMillis())
+                .setEnd(System.currentTimeMillis())
+                .build();
+
+        MaterialDatePicker<Pair<Long, Long>> pickerRange = MaterialDatePicker.Builder.dateRangePicker()
+                .setCalendarConstraints(constraints)
+                .setSelection(new Pair(System.currentTimeMillis(),System.currentTimeMillis()))
+                .build();
+
+        pickerRange.show(getSupportFragmentManager(), pickerRange.toString());
     }
 
-    /*
-   Limit selectable range to Oct 17 - Nov 20 2019
-    */
-    private CalendarConstraints.Builder limitRange()  {
+    private CalendarConstraints.DateValidator createValidators() {
+        LocalTime localHour = LocalTime.of(1, 1, 1);
+        long minDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue(), 1), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long maxDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue(), 28), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
-        CalendarConstraints.Builder constraintsBuilderRange = new CalendarConstraints.Builder();
-        Calendar calendarStart  = GregorianCalendar.getInstance();
-        Calendar calendarEnd  = GregorianCalendar.getInstance();
-
-        int year = 2019;
-
-        calendarStart.set(year, 10, 17);
-        calendarEnd.set(year, 11, 20);
-
-        long minDate = calendarStart.getTimeInMillis();
-        long maxDate = calendarEnd.getTimeInMillis();
-
-        constraintsBuilderRange.setStart(minDate);
-        constraintsBuilderRange.setEnd(maxDate);
-
-//        constraintsBuilderRange.setValidator(new RangeValidator(minDate, maxDate));
-
-        return constraintsBuilderRange;
-    }
-
-    private void asd(){
-        MaterialDatePicker.Builder<Pair<Long, Long>> builderRange = MaterialDatePicker.Builder.dateRangePicker();
-        CalendarConstraints.Builder constraintsBuilderRange = new CalendarConstraints.Builder();
-
-//....define min and max for example with LocalDateTime and ZonedDateTime or Calendar
-        Calendar calendarStart  = GregorianCalendar.getInstance();
-        Calendar calendarEnd  = GregorianCalendar.getInstance();
-
-        int year = 2019;
-
-        calendarStart.set(year, 10, 17);
-        calendarEnd.set(year, 11, 20);
-
-        long minDate = calendarStart.getTimeInMillis();
-        long maxDate = calendarEnd.getTimeInMillis();
-
-
-        CalendarConstraints.DateValidator dateValidatorMin = DateValidatorPointForward.from(minDate);
-        CalendarConstraints.DateValidator dateValidatorMax = DateValidatorPointBackward.before(maxDate);
-        calendarStart.set(year, 10, 19);
-        calendarEnd.set(year, 11, 21);
-         minDate = calendarStart.getTimeInMillis();
-         maxDate = calendarEnd.getTimeInMillis();
-        RangeValidator rangeValidator = new RangeValidator(List.of(minDate,maxDate));
         ArrayList<CalendarConstraints.DateValidator> listValidators =
                 new ArrayList<>();
 
-        listValidators.add(dateValidatorMin);
-        listValidators.add(dateValidatorMax);
-        listValidators.add(rangeValidator);
-        CalendarConstraints.DateValidator validators = CompositeDateValidator.allOf(listValidators);
-
-
-        constraintsBuilderRange.setValidator(validators);
-
-        builderRange.setCalendarConstraints(constraintsBuilderRange.build());
-        MaterialDatePicker<Pair<Long, Long>> pickerRange = builderRange.build();
-        pickerRange.show(getSupportFragmentManager(), pickerRange.toString());
+        listValidators.add(DateValidatorPointForward.from(minDate));
+        listValidators.add(DateValidatorPointBackward.before(maxDate));
+        listValidators.add(new WeekDayValidator());
+        listValidators.add(new RestrictiveDateValidator());
+        return CompositeDateValidator.allOf(listValidators);
     }
 }
