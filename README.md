@@ -1,13 +1,9 @@
 # tool-rental-architecture-RentaloTool
 Android app that can be used for renting
 
-
-
 ## Dagger notes:
 Those familiar with Spring may have noticed some parallels between the two frameworks.
-
 Dagger's @Module annotation makes the container aware of a class in a very similar fashion as any of Spring's stereotype annotations (for example, @Service, @Controller…). Likewise, @Provides and @Component are almost equivalent to Spring's @Bean and @Lookup respectively.
-
 Spring also has its @Scope annotation, correlating to @Singleton, though note here already another difference in that Spring assumes a singleton scope by default while Dagger defaults to what Spring developers might refer to as the prototype scope, invoking the provider method each time a dependency is required.
 
 
@@ -19,6 +15,10 @@ or via
  toolService = DaggerRepositoryToolIoC.builder().build().toolService();
 
 
+## Google Authenticator
+  Created on firebase https://console.firebase.google.com/ a new RentaloTool project.
+1. Choice between https://console.firebase.google.com/ | https://console.cloud.google.com/?pli=1
+https://medium.com/google-developers/whats-the-relationship-between-firebase-and-google-cloud-57e268a7ff6f
  Issues:
  ## Remove in production the http(use https) and remove from manifest       android:usesCleartextTraffic="true"
   https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted
@@ -30,7 +30,8 @@ or via
  ## Gson
  ## Picasso
  ## DatePicker
-
+ ## Authorisation + Authentication
+ ## OAuth2.0 + user id
 TODO:
 Add on click activity and show the available dates for the selected tool.
 Add a chart and Paypal integration. See templates for Ecom projects.
