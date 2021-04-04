@@ -19,6 +19,13 @@ or via
   Created on firebase https://console.firebase.google.com/ a new RentaloTool project.
 1. Choice between https://console.firebase.google.com/ | https://console.cloud.google.com/?pli=1
 https://medium.com/google-developers/whats-the-relationship-between-firebase-and-google-cloud-57e268a7ff6f
+
+ https://firebase.google.com/docs/android/setup?authuser=0#console
+ Step 1: Create firebase project
+ Step 2: Linking the firebase project with the app
+ Step 3: Next Sign in  tutorial https://firebase.google.com/docs/auth/android/google-signin?authuser=0
+
+
  Issues:
  ## Remove in production the http(use https) and remove from manifest       android:usesCleartextTraffic="true"
   https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted
@@ -32,6 +39,7 @@ https://medium.com/google-developers/whats-the-relationship-between-firebase-and
  ## DatePicker
  ## Authorisation + Authentication
  ## OAuth2.0 + user id
+
 TODO:
 Add on click activity and show the available dates for the selected tool.
 Add a chart and Paypal integration. See templates for Ecom projects.

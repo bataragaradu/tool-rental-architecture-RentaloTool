@@ -22,7 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.rbinnovative.rentalotool.ui.activity.ScrollingActivity"
             android:label="@string/app_name"
@@ -35,7 +34,6 @@
         <activity
             android:name="com.rbinnovative.rentalotool.ui.activity.SignupActivity"
             android:theme="@style/AppTheme.Dark" />
-
         <activity
             android:name="com.rbinnovative.rentalotool.ui.activity.DetailedToolActivity"
             android:theme="@style/ComponentAppTheme" >

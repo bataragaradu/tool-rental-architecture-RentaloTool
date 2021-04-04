@@ -1,5 +1,5 @@
 <resources>
-<!--    Signup activity-->
+    <!--    Signup activity-->
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -12,7 +12,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="hello_world">Hello world!</string>
 
-<!--    Login Activity-->
+    <!--    Login Activity-->
     <string name="app_name">RentaloToolScrollingApp</string>
     <string name="logout">Logout</string>
     <string name="username">Username</string>
