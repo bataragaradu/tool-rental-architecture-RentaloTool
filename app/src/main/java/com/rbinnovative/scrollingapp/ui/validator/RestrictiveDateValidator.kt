@@ -1,4 +1,4 @@
-package com.rbinnovative.scrollingapp.ui.activity
+package com.rbinnovative.scrollingapp.ui.validator
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -11,12 +11,13 @@ import java.util.*
 
 class RestrictiveDateValidator : CalendarConstraints.DateValidator {
 
-    private val availableDates  = Collections.singleton(LocalDate.now().plusDays(10))
+//    private val availableDates  = Collections.singleton(LocalDate.now().plusDays(1))
+    private val availableDates  = Arrays.asList(LocalDate.now().plusDays(1), LocalDate.now().minusDays(2))
 
     override fun isValid(longValidatedDate: Long): Boolean {
         val dateToBeValidated = LocalDateTime.ofInstant(Instant.ofEpochMilli(longValidatedDate), ZoneId.systemDefault())
         for (availableDate in availableDates){
-            if(!dateToBeValidated.dayOfMonth.equals(availableDate.dayOfMonth)){
+            if(dateToBeValidated.dayOfMonth.equals(availableDate.dayOfMonth)){
                 return true;
             }
         }
@@ -35,7 +36,6 @@ class RestrictiveDateValidator : CalendarConstraints.DateValidator {
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
     }
-
 
     override fun describeContents(): Int {
         return 0

@@ -6,16 +6,16 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
-
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.CompositeDateValidator;
 import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.rbinnovative.scrollingapp.R;
+import com.rbinnovative.scrollingapp.ui.validator.RestrictiveDateValidator;
+import com.rbinnovative.scrollingapp.ui.validator.WeekDayValidator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

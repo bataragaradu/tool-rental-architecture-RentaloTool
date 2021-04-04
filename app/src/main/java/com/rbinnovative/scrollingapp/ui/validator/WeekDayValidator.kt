@@ -1,19 +1,18 @@
-package com.rbinnovative.scrollingapp.ui.activity
+package com.rbinnovative.scrollingapp.ui.validator
 
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.android.material.datepicker.CalendarConstraints
-import java.time.LocalDate
 import java.util.*
 
 class WeekDayValidator : CalendarConstraints.DateValidator {
-
 
     val CREATOR: Parcelable.Creator<WeekDayValidator?> =
             object : Parcelable.Creator<WeekDayValidator?> {
                 override fun createFromParcel(source: Parcel): WeekDayValidator {
                     return WeekDayValidator()
                 }
+
                 override fun newArray(size: Int): Array<WeekDayValidator?> {
                     return arrayOfNulls(size)
                 }
