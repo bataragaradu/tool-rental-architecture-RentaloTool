@@ -16,6 +16,7 @@ or via
 
 
 ## Google Authenticator
+# Authorization Flow
   Created on firebase https://console.firebase.google.com/ a new RentaloTool project.
 1. Choice between https://console.firebase.google.com/ | https://console.cloud.google.com/?pli=1
 https://medium.com/google-developers/whats-the-relationship-between-firebase-and-google-cloud-57e268a7ff6f
@@ -25,6 +26,13 @@ https://medium.com/google-developers/whats-the-relationship-between-firebase-and
  Step 2: Linking the firebase project with the app
  Step 3: Next Sign in  tutorial https://firebase.google.com/docs/auth/android/google-signin?authuser=0
 
+ Google sign in we have user id for each device. Based on this user id we will retrieve user data from our service.
+------------------------------------------------------------------- User id for each
+
+#Authentication Flow
+https://stackoverflow.com/questions/53294357/using-spring-boot-app-as-resource-server-and-google-oauth2-as-authorization-serv
+
+Authorizatino server - Resource Server - Client
 
  Issues:
  ## Remove in production the http(use https) and remove from manifest       android:usesCleartextTraffic="true"
