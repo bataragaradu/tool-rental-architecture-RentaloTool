@@ -13,7 +13,7 @@
     <string name="hello_world">Hello world!</string>
 
     <!--    Login Activity-->
-    <string name="app_name">RentaloToolScrollingApp</string>
+    <string name="app_name">Rentalo Tool</string>
     <string name="logout">Logout</string>
     <string name="username">Username</string>
     <string name="password">Password</string>

@@ -2,15 +2,13 @@ package com.rbinnovative.rentalotool.ui.activity;
 
 import android.os.Bundle;
 
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.rbinnovative.rentalotool.R;
 import com.rbinnovative.rentalotool.model.Tool;
 import com.rbinnovative.rentalotool.service.ToolService;
+import com.rbinnovative.rentalotool.ui.recicleview.HorizotalToolsRecyclerAdapter;
 import com.rbinnovative.rentalotool.ui.recicleview.ToolsRecyclerAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,19 +17,36 @@ import android.view.MenuItem;
 
 import javax.inject.Inject;
 
-public class ScrollingActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class LandingScrollingActivity extends AppCompatActivity {
 
     @Inject
     ToolService toolService;
+
+//    @BindView(R.id.toolbar)
+//    Toolbar toolbar;
+//    @BindView(R.id.toolbar_layout)
+//    CollapsingToolbarLayout toolBarLayout;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.horizontalRecyclerView)
+    RecyclerView horizontalRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MainApplication) getApplicationContext()).appComponent.inject(this);
+        setContentView(R.layout.landing_activity_main);
+        ButterKnife.bind(this);
         prepareUi();
         toolService.initDataSet(
                 ((successRetrievedTools) -> runOnUiThread(() -> prepareAndPopulateRecyclerView(successRetrievedTools))),
                 ((failureRetrieved) ->  runOnUiThread(() -> prepareAndPopulateRecyclerView(failureRetrieved))));
+        toolService.initDataSet(
+                ((successRetrievedTools) -> runOnUiThread(() -> prepareAndPopulateHorizontalRecyclerView(successRetrievedTools))),
+                ((failureRetrieved) ->  runOnUiThread(() -> prepareAndPopulateHorizontalRecyclerView(failureRetrieved))));
     }
 
     @Override
@@ -54,19 +69,21 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
     private void prepareAndPopulateRecyclerView(Tool[] tools) {
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         ToolsRecyclerAdapter adapter = new ToolsRecyclerAdapter(tools, recyclerView.getContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
 
+    private void prepareAndPopulateHorizontalRecyclerView(Tool[] tools) {
+        HorizotalToolsRecyclerAdapter adapter = new HorizotalToolsRecyclerAdapter(tools, horizontalRecyclerView.getContext());
+        horizontalRecyclerView.setHasFixedSize(true);
+        horizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        horizontalRecyclerView.setAdapter(adapter);
+    }
+
     private void prepareUi() {
-        setContentView(R.layout.activity_scrolling);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        CollapsingToolbarLayout toolBarLayout = findViewById(R.id.toolbar_layout);
-        toolBarLayout.setTitle(getTitle());
-        FloatingActionButton fab = findViewById(R.id.fab);
+//        setSupportActionBar(toolbar);
+//        toolBarLayout.setTitle(getTitle());
     }
 }

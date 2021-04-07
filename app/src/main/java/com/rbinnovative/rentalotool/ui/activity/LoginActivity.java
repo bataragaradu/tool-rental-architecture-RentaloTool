@@ -97,7 +97,6 @@ public class LoginActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
             // Signed in successfully, show authenticated UI.
             onLoginSuccess(account.toString());
         } catch (ApiException e) {
@@ -118,7 +117,6 @@ public class LoginActivity extends AppCompatActivity {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        updateUI(account);
     }
 
     /*
@@ -132,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
     private void onLoginSuccess(String token) {
         _loginButton.setEnabled(false);
         snackbar.dismiss();
-        Intent intent = new Intent(getApplicationContext(), ScrollingActivity.class);
+        Intent intent = new Intent(getApplicationContext(), LandingScrollingActivity.class);
         intent.putExtra("token", token);
         intent.putExtra(USERNAME, _emailText.getText().toString());
         startActivity(intent);
