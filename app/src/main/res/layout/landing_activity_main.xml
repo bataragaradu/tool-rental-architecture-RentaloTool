@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -17,12 +18,15 @@
     <com.google.android.material.appbar.CollapsingToolbarLayout
         android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/search_barrr"
+        app:layout_constraintBottom_toTopOf="@id/mid_constraint"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
+
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 <!--    <androidx.appcompat.widget.Toolbar-->
@@ -45,25 +49,33 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <LinearLayout
-        android:id="@+id/search_barrr"
-        android:layout_width="100dp"
-        android:layout_height="10dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mid_constraint"
+        android:layout_width="421dp"
+        android:layout_height="372dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/search_bar"
+        app:layout_constraintHorizontal_bias="0.13"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_layout"
-        app:layout_constraintBottom_toTopOf="@id/search_bar">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_layout">
+
         <SearchView
             android:id="@+id/search_ba2r"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-    </LinearLayout>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_layout" />
+
+        <include layout="@layout/tools_content_scrolling" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <include layout="@layout/tools_content_scrolling" />
 
 
     <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
