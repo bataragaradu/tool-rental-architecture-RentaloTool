@@ -7,16 +7,19 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.util.Pair;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.CompositeDateValidator;
 import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.rbinnovative.rentalotool.R;
 import com.rbinnovative.rentalotool.ui.validator.RestrictiveDateValidator;
 import com.rbinnovative.rentalotool.ui.validator.WeekDayValidator;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -30,13 +33,14 @@ import butterknife.ButterKnife;
 
 public class DetailedToolActivity extends AppCompatActivity {
 
-    @BindView(R.id.date_picker)
-    DatePicker datePicker;
     @BindView(R.id.date_selected_text_view)
     TextView dateValueTextView;
+    @BindView(R.id.dateMaxValueSelected)
+    TextView dateValueMaxValueSelected;
     @BindView(R.id.update_date_button)
     Button updateDateButton;
-
+    @BindView(R.id.reservationButton)
+    AppCompatButton reservationButton;
 //    @Inject
 //    ToolService toolService;
 
@@ -73,14 +77,12 @@ public class DetailedToolActivity extends AppCompatActivity {
         // disable dates before today
         Calendar today = Calendar.getInstance();
         long now = today.getTimeInMillis();
-        datePicker.setMinDate(now);
         updateDateButton.setOnClickListener(v -> onClickDate());
 //        setSupportActionBar(toolbar);
     }
 
     private void onClickDate() {
         selectReservationDate();
-        dateValueTextView.setText("Selected date: " + (datePicker.getMonth() + 1) + "/" + datePicker.getDayOfMonth() + "/" + datePicker.getYear());
     }
 
     private void selectReservationDate() {
@@ -94,13 +96,19 @@ public class DetailedToolActivity extends AppCompatActivity {
 
         MaterialDatePicker<Pair<Long, Long>> pickerRange = MaterialDatePicker.Builder.dateRangePicker()
                 .setCalendarConstraints(constraints)
-                .setSelection(new Pair(System.currentTimeMillis(),System.currentTimeMillis()))
+                .setSelection(new Pair(System.currentTimeMillis(), System.currentTimeMillis()))
                 .build();
-
         pickerRange.show(getSupportFragmentManager(), pickerRange.toString());
+        pickerRange.addOnPositiveButtonClickListener(selection -> {
+            LocalDate startDate = Instant.ofEpochMilli(selection.first).atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate endDate = Instant.ofEpochMilli(selection.second).atZone(ZoneId.systemDefault()).toLocalDate();
+            dateValueTextView.setText("Selected date: " + (startDate.getDayOfMonth()) + "/" + startDate.getMonth() + "/" + startDate.getYear());
+            dateValueMaxValueSelected.setText("Selected date: " + (endDate.getDayOfMonth()) + "/" + endDate.getMonth() + "/" + endDate.getYear());
+            reservationButton.setEnabled(true);
+        });
     }
 
-    private CalendarConstraints.DateValidator createValidators() {
+        private CalendarConstraints.DateValidator createValidators() {
         LocalTime localHour = LocalTime.of(1, 1, 1);
         long minDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue(), 1), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         long maxDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue(), 28), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();

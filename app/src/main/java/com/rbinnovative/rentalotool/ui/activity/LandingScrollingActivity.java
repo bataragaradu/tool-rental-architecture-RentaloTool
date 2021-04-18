@@ -38,7 +38,7 @@ public class LandingScrollingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MainApplication) getApplicationContext()).appComponent.inject(this);
-        setContentView(R.layout.landing_activity_main);
+        setContentView(R.layout.landing_main_layout);
         ButterKnife.bind(this);
         prepareUi();
         toolService.initDataSet(

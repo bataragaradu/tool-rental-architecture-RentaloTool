@@ -12,7 +12,7 @@ import java.util.*
 class RestrictiveDateValidator : CalendarConstraints.DateValidator {
 
 //    private val availableDates  = Collections.singleton(LocalDate.now().plusDays(1))
-    private val availableDates  = Arrays.asList(LocalDate.now().plusDays(1), LocalDate.now().minusDays(2))
+    private val availableDates  = Arrays.asList(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), LocalDate.now().minusDays(2))
 
     override fun isValid(longValidatedDate: Long): Boolean {
         val dateToBeValidated = LocalDateTime.ofInstant(Instant.ofEpochMilli(longValidatedDate), ZoneId.systemDefault())

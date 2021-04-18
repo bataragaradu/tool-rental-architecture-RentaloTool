@@ -32,7 +32,7 @@ public class ToolsRecyclerAdapter extends RecyclerView.Adapter<ToolsRecyclerAdap
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.list_item, parent, false);
+        View listItem= layoutInflater.inflate(R.layout.tools_list_item, parent, false);
         return new ViewHolder(listItem);
     }
 
