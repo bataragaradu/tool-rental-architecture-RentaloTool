@@ -7,20 +7,12 @@
     android:fitsSystemWindows="true"
     app:layout_behavior="">
 
-    <!--    <com.google.android.material.appbar.AppBarLayout-->
-    <!--        android:id="@+id/app_bar"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="@dimen/app_bar_height"-->
-    <!--        android:fitsSystemWindows="true"-->
-    <!--        android:theme="@style/Theme.ScrollingApp.AppBarOverlay">-->
-    <!--        </com.google.android.material.appbar.AppBarLayout>-->
-
     <com.google.android.material.appbar.CollapsingToolbarLayout
-        android:id="@+id/toolbar_layout"
+        android:id="@+id/category_toolbar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toTopOf="@id/mid_constraint"
+        app:layout_constraintBottom_toTopOf="@id/toolsMainLayoutConstraint"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -31,44 +23,44 @@
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/horizontalRecyclerView"
+        android:id="@+id/categoryVerticalRecyclerView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/mid_constraint"
+        app:layout_constraintBottom_toTopOf="@id/toolsMainLayoutConstraint"
         />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mid_constraint"
+        android:id="@+id/toolsMainLayoutConstraint"
         android:layout_width="421dp"
         android:layout_height="372dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalRecyclerView">
+        app:layout_constraintTop_toBottomOf="@+id/categoryVerticalRecyclerView">
 
         <SearchView
-            android:id="@+id/search_ba2r"
+            android:id="@+id/toolsSearchBar"
             android:layout_width="135dp"
             android:layout_height="34dp"
-            app:layout_constraintBottom_toTopOf="@+id/include4"
+            app:layout_constraintBottom_toTopOf="@+id/toolsContentScrollingInclude"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/mid_constraint"
+            app:layout_constraintTop_toTopOf="@id/toolsMainLayoutConstraint"
             app:layout_constraintVertical_bias="0.0" />
 
         <include
-            android:id="@+id/include4"
+            android:id="@+id/toolsContentScrollingInclude"
             layout="@layout/tools_content_scrolling"
             android:layout_width="402dp"
-            android:layout_height="306dp"
+            android:layout_height="506dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_ba2r"
+            app:layout_constraintTop_toBottomOf="@id/toolsSearchBar"
             tools:layout_editor_absoluteX="9dp"
             tools:layout_editor_absoluteY="59dp" />
 

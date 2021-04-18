@@ -31,7 +31,7 @@ public class LandingScrollingActivity extends AppCompatActivity {
 //    CollapsingToolbarLayout toolBarLayout;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(R.id.horizontalRecyclerView)
+    @BindView(R.id.categoryVerticalRecyclerView)
     RecyclerView horizontalRecyclerView;
 
     @Override
