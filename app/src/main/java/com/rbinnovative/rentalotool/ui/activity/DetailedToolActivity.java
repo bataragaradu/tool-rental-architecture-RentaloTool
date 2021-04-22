@@ -4,18 +4,19 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.util.Pair;
+
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.CompositeDateValidator;
 import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.rbinnovative.rentalotool.R;
+import com.rbinnovative.rentalotool.service.RentaloToolClient;
 import com.rbinnovative.rentalotool.ui.validator.RestrictiveDateValidator;
 import com.rbinnovative.rentalotool.ui.validator.WeekDayValidator;
 
@@ -25,7 +26,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,14 +45,18 @@ public class DetailedToolActivity extends AppCompatActivity {
     Button updateDateButton;
     @BindView(R.id.reservationButton)
     AppCompatButton reservationButton;
+    @Inject
+    RentaloToolClient rentaloToolClient;
+
+    private LocalDate[] toolAvailability;
 //    @Inject
 //    ToolService toolService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //        ((MainApplication) getApplicationContext()).appComponent.inject(this);
-        setContentView(R.layout.activity_detailed_tool);
+        ((MainApplication) getApplicationContext()).appComponent.inject(this);
+        setContentView(R.layout.tool_detail_reservation);
         ButterKnife.bind(this);
         prepareUi();
     }
@@ -73,12 +81,17 @@ public class DetailedToolActivity extends AppCompatActivity {
     }
 
     private void prepareUi() {
-
-        // disable dates before today
-        Calendar today = Calendar.getInstance();
-        long now = today.getTimeInMillis();
+        //TODO: send though INTent extra the tool id
+        toolAvailability = new LocalDate[0];
+        rentaloToolClient.retrieveToolAvailability(3,
+                ((successRetrievedTools) -> runOnUiThread(() -> loadToolAvailability(successRetrievedTools))),
+                ((failureRetrieved) -> runOnUiThread(() -> loadToolAvailability(failureRetrieved))));
         updateDateButton.setOnClickListener(v -> onClickDate());
 //        setSupportActionBar(toolbar);
+    }
+
+    private void loadToolAvailability(LocalDate[] retrievedToolAvailability) {
+        this.toolAvailability = retrievedToolAvailability;
     }
 
     private void onClickDate() {
@@ -108,7 +121,7 @@ public class DetailedToolActivity extends AppCompatActivity {
         });
     }
 
-        private CalendarConstraints.DateValidator createValidators() {
+    private CalendarConstraints.DateValidator createValidators() {
         LocalTime localHour = LocalTime.of(1, 1, 1);
         long minDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue(), 1), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         long maxDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue(), 28), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
@@ -119,7 +132,7 @@ public class DetailedToolActivity extends AppCompatActivity {
         listValidators.add(DateValidatorPointForward.from(minDate));
         listValidators.add(DateValidatorPointBackward.before(maxDate));
         listValidators.add(new WeekDayValidator());
-        listValidators.add(new RestrictiveDateValidator());
+        listValidators.add(new RestrictiveDateValidator(Arrays.asList(toolAvailability)));
         return CompositeDateValidator.allOf(listValidators);
     }
 }

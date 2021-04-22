@@ -12,16 +12,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rbinnovative.rentalotool.R;
+import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Tool;
 
 public class HorizotalToolsRecyclerAdapter extends RecyclerView.Adapter<HorizotalToolsRecyclerAdapter.HorizontalViewHolder> {
     public static final String TAG = HorizotalToolsRecyclerAdapter.class.getSimpleName();
 
-    private final Tool[] tools;
+    private final Category[] categories;
     private final Context context;
 
-    public HorizotalToolsRecyclerAdapter(Tool[] tools, Context context) {
-        this.tools = tools;
+    public HorizotalToolsRecyclerAdapter(Category[] categories, Context context) {
+        this.categories = categories;
         this.context = context;
     }
 
@@ -35,17 +36,17 @@ public class HorizotalToolsRecyclerAdapter extends RecyclerView.Adapter<Horizota
 
     @Override
     public void onBindViewHolder(@NonNull HorizontalViewHolder holder, int positionSelected) {
-        final Tool tool = tools[positionSelected];
+        final Category tool = categories[positionSelected];
         holder.textView.setText(tool.getName());
         holder.relativeLayout.setOnClickListener(view -> loadOneToolActiviy(view, tool));
     }
 
     @Override
     public int getItemCount() {
-        return tools.length;
+        return categories.length;
     }
 
-    private void loadOneToolActiviy(View view, Tool tool) {
+    private void loadOneToolActiviy(View view, Category tool) {
         Log.d(TAG, "Pressed on tool:" + tool);
     }
 

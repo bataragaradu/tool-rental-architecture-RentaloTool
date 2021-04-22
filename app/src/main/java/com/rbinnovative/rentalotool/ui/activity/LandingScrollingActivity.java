@@ -3,8 +3,9 @@ package com.rbinnovative.rentalotool.ui.activity;
 import android.os.Bundle;
 
 import com.rbinnovative.rentalotool.R;
+import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Tool;
-import com.rbinnovative.rentalotool.service.ToolService;
+import com.rbinnovative.rentalotool.service.RentaloToolClient;
 import com.rbinnovative.rentalotool.ui.recicleview.HorizotalToolsRecyclerAdapter;
 import com.rbinnovative.rentalotool.ui.recicleview.ToolsRecyclerAdapter;
 
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 public class LandingScrollingActivity extends AppCompatActivity {
 
     @Inject
-    ToolService toolService;
+    RentaloToolClient rentaloToolClient;
 
 //    @BindView(R.id.toolbar)
 //    Toolbar toolbar;
@@ -41,12 +42,12 @@ public class LandingScrollingActivity extends AppCompatActivity {
         setContentView(R.layout.landing_main_layout);
         ButterKnife.bind(this);
         prepareUi();
-        toolService.initDataSet(
-                ((successRetrievedTools) -> runOnUiThread(() -> prepareAndPopulateRecyclerView(successRetrievedTools))),
-                ((failureRetrieved) ->  runOnUiThread(() -> prepareAndPopulateRecyclerView(failureRetrieved))));
-        toolService.initDataSet(
-                ((successRetrievedTools) -> runOnUiThread(() -> prepareAndPopulateHorizontalRecyclerView(successRetrievedTools))),
-                ((failureRetrieved) ->  runOnUiThread(() -> prepareAndPopulateHorizontalRecyclerView(failureRetrieved))));
+        rentaloToolClient.retrieveTools(
+                ((successRetrievedTools) -> runOnUiThread(() -> prepareAndPopulateToolsReciclerView(successRetrievedTools))),
+                ((failureRetrieved) ->  runOnUiThread(() -> prepareAndPopulateToolsReciclerView(failureRetrieved))));
+        rentaloToolClient.retrieveCategory(
+                ((successRetrievedCategory) -> runOnUiThread(() -> prepareAndPopulateCategoryRecyclerView(successRetrievedCategory))),
+                ((failureRetrieved) ->  runOnUiThread(() -> prepareAndPopulateCategoryRecyclerView(failureRetrieved))));
     }
 
     @Override
@@ -68,15 +69,15 @@ public class LandingScrollingActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void prepareAndPopulateRecyclerView(Tool[] tools) {
+    private void prepareAndPopulateToolsReciclerView(Tool[] tools) {
         ToolsRecyclerAdapter adapter = new ToolsRecyclerAdapter(tools, recyclerView.getContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
 
-    private void prepareAndPopulateHorizontalRecyclerView(Tool[] tools) {
-        HorizotalToolsRecyclerAdapter adapter = new HorizotalToolsRecyclerAdapter(tools, horizontalRecyclerView.getContext());
+    private void prepareAndPopulateCategoryRecyclerView(Category[] categories) {
+        HorizotalToolsRecyclerAdapter adapter = new HorizotalToolsRecyclerAdapter(categories, horizontalRecyclerView.getContext());
         horizontalRecyclerView.setHasFixedSize(true);
         horizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         horizontalRecyclerView.setAdapter(adapter);

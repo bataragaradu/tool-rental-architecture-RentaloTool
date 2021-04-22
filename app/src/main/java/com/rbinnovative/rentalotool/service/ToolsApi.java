@@ -1,6 +1,9 @@
 package com.rbinnovative.rentalotool.service;
 
+import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Tool;
+
+import java.time.LocalDate;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -22,4 +25,10 @@ public interface ToolsApi {
     public Call<Tool[]> getAllTools();
     @GET("/tools/{id}")
     public Call<Tool> getToolById(@Path("id") Integer id);
+    @GET("/category/{id}")
+    public Call<Category> getCategoryById(@Path("id") Integer id);
+    @GET("/category")
+    public Call<Category[]> getAllCategories();
+    @GET("/tools/{id}/availability")
+    public Call<LocalDate[]> getToolAvailability(@Path("id") Integer id);
 }

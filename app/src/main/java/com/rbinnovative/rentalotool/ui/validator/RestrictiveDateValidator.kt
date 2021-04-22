@@ -9,14 +9,14 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 
-class RestrictiveDateValidator : CalendarConstraints.DateValidator {
+class RestrictiveDateValidator(val  toolAvailability: List<LocalDate>) : CalendarConstraints.DateValidator {
 
 //    private val availableDates  = Collections.singleton(LocalDate.now().plusDays(1))
-    private val availableDates  = Arrays.asList(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), LocalDate.now().minusDays(2))
+    private val availableDates  = listOf(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), LocalDate.now().minusDays(2))
 
     override fun isValid(longValidatedDate: Long): Boolean {
         val dateToBeValidated = LocalDateTime.ofInstant(Instant.ofEpochMilli(longValidatedDate), ZoneId.systemDefault())
-        for (availableDate in availableDates){
+        for (availableDate in toolAvailability){
             if(dateToBeValidated.dayOfMonth.equals(availableDate.dayOfMonth)){
                 return true;
             }
@@ -27,7 +27,7 @@ class RestrictiveDateValidator : CalendarConstraints.DateValidator {
     val CREATOR: Parcelable.Creator<RestrictiveDateValidator?> =
             object : Parcelable.Creator<RestrictiveDateValidator?> {
                 override fun createFromParcel(source: Parcel): RestrictiveDateValidator {
-                    return RestrictiveDateValidator()
+                    return RestrictiveDateValidator(toolAvailability)
                 }
                 override fun newArray(size: Int): Array<RestrictiveDateValidator?> {
                     return arrayOfNulls(size)

@@ -1,6 +1,7 @@
 package com.rbinnovative.rentalotool.config;
 
-import com.rbinnovative.rentalotool.service.ToolService;
+import com.rbinnovative.rentalotool.service.RentaloToolClient;
+import com.rbinnovative.rentalotool.ui.activity.DetailedToolActivity;
 import com.rbinnovative.rentalotool.ui.activity.LandingScrollingActivity;
 
 import javax.inject.Singleton;
@@ -14,9 +15,10 @@ public interface RepositoryToolIoC {
     Pre:requirement:
         ToolRepository contrustor to be annotated with @Inject(And also it's dependencies).
  */
-    ToolService toolRepository();
+    RentaloToolClient toolRepository();
 
     // This tells Dagger that LoginActivity requests injection so the graph needs to
     // satisfy all the dependencies of the fields that LoginActivity is injecting
     void inject(LandingScrollingActivity landingScrollingActivity);
+    void inject(DetailedToolActivity landingScrollingActivity);
 }
