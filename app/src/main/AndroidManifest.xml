@@ -40,7 +40,7 @@
         <activity
             android:name=".ui.activity.DetailedToolActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme"
+            android:theme="@style/ComponentAppTheme"
             >
 
             <!-- <intent-filter> -->
