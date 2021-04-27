@@ -29,8 +29,8 @@ public class RentaloToolClient  {
         new RetrieveCategoryTask(onSuccessListener, onErrorListener).execute();
     }
 
-    public void retrieveToolAvailability(Integer toolId, final OnSuccessListener<LocalDate[]> onSuccessListener,
-                                 final OnErrorListener<LocalDate[]> onErrorListener) {
+    public void retrieveToolAvailability(Integer toolId, final OnSuccessListener<String[]> onSuccessListener,
+                                 final OnErrorListener<String[]> onErrorListener) {
         new RetrieveToolAvailabilityTask(toolId, onSuccessListener, onErrorListener).execute();
     }
 

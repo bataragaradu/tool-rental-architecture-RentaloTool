@@ -27,7 +27,7 @@
         <activity
             android:name=".ui.activity.LandingScrollingActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ScrollingApp.NoActionBar" >
+            android:theme="@style/AppTheme" >
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
@@ -39,7 +39,9 @@
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".ui.activity.DetailedToolActivity"
-            android:theme="@style/ComponentAppTheme" >
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"
+            >
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->

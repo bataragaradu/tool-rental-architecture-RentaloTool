@@ -11,7 +11,6 @@ import java.util.*
 
 class RestrictiveDateValidator(val  toolAvailability: List<LocalDate>) : CalendarConstraints.DateValidator {
 
-//    private val availableDates  = Collections.singleton(LocalDate.now().plusDays(1))
     private val availableDates  = listOf(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), LocalDate.now().minusDays(2))
 
     override fun isValid(longValidatedDate: Long): Boolean {

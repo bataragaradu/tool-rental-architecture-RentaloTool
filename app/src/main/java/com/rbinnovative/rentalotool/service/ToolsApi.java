@@ -30,5 +30,5 @@ public interface ToolsApi {
     @GET("/category")
     public Call<Category[]> getAllCategories();
     @GET("/tools/{id}/availability")
-    public Call<LocalDate[]> getToolAvailability(@Path("id") Integer id);
+    public Call<String[]> getToolAvailability(@Path("id") Integer id);
 }

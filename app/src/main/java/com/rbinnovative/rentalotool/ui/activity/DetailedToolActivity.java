@@ -28,6 +28,9 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
@@ -48,7 +51,7 @@ public class DetailedToolActivity extends AppCompatActivity {
     @Inject
     RentaloToolClient rentaloToolClient;
 
-    private LocalDate[] toolAvailability;
+    private String[] toolAvailability;
 //    @Inject
 //    ToolService toolService;
 
@@ -82,20 +85,16 @@ public class DetailedToolActivity extends AppCompatActivity {
 
     private void prepareUi() {
         //TODO: send though INTent extra the tool id
-        toolAvailability = new LocalDate[0];
+        toolAvailability = new String[0];
         rentaloToolClient.retrieveToolAvailability(3,
                 ((successRetrievedTools) -> runOnUiThread(() -> loadToolAvailability(successRetrievedTools))),
                 ((failureRetrieved) -> runOnUiThread(() -> loadToolAvailability(failureRetrieved))));
-        updateDateButton.setOnClickListener(v -> onClickDate());
+        updateDateButton.setOnClickListener(v -> selectReservationDate());
 //        setSupportActionBar(toolbar);
     }
 
-    private void loadToolAvailability(LocalDate[] retrievedToolAvailability) {
+    private void loadToolAvailability(String[] retrievedToolAvailability) {
         this.toolAvailability = retrievedToolAvailability;
-    }
-
-    private void onClickDate() {
-        selectReservationDate();
     }
 
     private void selectReservationDate() {
@@ -122,9 +121,10 @@ public class DetailedToolActivity extends AppCompatActivity {
     }
 
     private CalendarConstraints.DateValidator createValidators() {
+        //TOOD: fix date bug for last day
         LocalTime localHour = LocalTime.of(1, 1, 1);
         long minDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue(), 1), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        long maxDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue(), 28), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long maxDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue(), LocalDate.now().lengthOfMonth()), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
         ArrayList<CalendarConstraints.DateValidator> listValidators =
                 new ArrayList<>();
@@ -132,7 +132,8 @@ public class DetailedToolActivity extends AppCompatActivity {
         listValidators.add(DateValidatorPointForward.from(minDate));
         listValidators.add(DateValidatorPointBackward.before(maxDate));
         listValidators.add(new WeekDayValidator());
-        listValidators.add(new RestrictiveDateValidator(Arrays.asList(toolAvailability)));
+        List<LocalDate> toolsDate = Stream.of(toolAvailability).map(LocalDate::parse).collect(Collectors.toList());
+        listValidators.add(new RestrictiveDateValidator(toolsDate));
         return CompositeDateValidator.allOf(listValidators);
     }
 }

@@ -2,6 +2,8 @@ package com.rbinnovative.rentalotool.service;
 
 import android.os.AsyncTask;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rbinnovative.rentalotool.controller.listener.OnErrorListener;
 import com.rbinnovative.rentalotool.controller.listener.OnSuccessListener;
 import com.rbinnovative.rentalotool.model.Category;
@@ -16,32 +18,34 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.rbinnovative.rentalotool.utils.Constants.TOOLS_API__URL;
 
-public class RetrieveToolAvailabilityTask extends AsyncTask<Integer, Void, LocalDate[]> {
+public class RetrieveToolAvailabilityTask extends AsyncTask<Integer, Void, String[]> {
     private final Integer toolId;
-    private final OnErrorListener<LocalDate[]> onErrorListener;
-    private final OnSuccessListener<LocalDate[]> onSuccessListener;
+    private final OnErrorListener<String[]> onErrorListener;
+    private final OnSuccessListener<String[]> onSuccessListener;
 
-    public RetrieveToolAvailabilityTask(Integer toolId, OnSuccessListener<LocalDate[]> onSuccessListener, OnErrorListener<LocalDate[]> onErrorListener) {
+    public RetrieveToolAvailabilityTask(Integer toolId, OnSuccessListener<String[]> onSuccessListener, OnErrorListener<String[]> onErrorListener) {
         this.toolId = toolId;
         this.onSuccessListener = onSuccessListener;
         this.onErrorListener = onErrorListener;
     }
 
     @Override
-    protected LocalDate[] doInBackground(Integer... voids) {
-        LocalDate[] result = new LocalDate[0];
+    protected String[] doInBackground(Integer... voids) {
+        String[] result = new String[0];
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(TOOLS_API__URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
         ToolsApi service = retrofit.create(ToolsApi.class);
-
+        //TODO: try response<String[]>
         try {
-            Response<LocalDate[]> response =
+            Response<String[]> response =
                     service.getToolAvailability(toolId).execute();
             if (response.isSuccessful()) {
-                // success
                 result = response.body();
                 onSuccessListener.onSuccess(result);
             } else {
