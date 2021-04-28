@@ -3,11 +3,10 @@ package com.rbinnovative.rentalotool.service;
 import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Tool;
 
-import java.time.LocalDate;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /*
     TODO Remove Explanation:
@@ -31,4 +30,6 @@ public interface ToolsApi {
     public Call<Category[]> getAllCategories();
     @GET("/tools/{id}/availability")
     public Call<String[]> getToolAvailability(@Path("id") Integer id);
+    @GET("/tools")
+    public Call<Tool[]> getToolsByCategoryId(@Query("categoryId") Integer categoryIdid);
 }

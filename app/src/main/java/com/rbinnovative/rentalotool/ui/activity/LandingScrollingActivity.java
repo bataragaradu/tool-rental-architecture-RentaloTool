@@ -77,7 +77,7 @@ public class LandingScrollingActivity extends AppCompatActivity {
     }
 
     private void prepareAndPopulateCategoryRecyclerView(Category[] categories) {
-        HorizotalToolsRecyclerAdapter adapter = new HorizotalToolsRecyclerAdapter(categories, horizontalRecyclerView.getContext());
+        HorizotalToolsRecyclerAdapter adapter = new HorizotalToolsRecyclerAdapter(categories, horizontalRecyclerView.getContext(), (successRetrievedTools) -> runOnUiThread(() -> prepareAndPopulateToolsReciclerView(successRetrievedTools)));
         horizontalRecyclerView.setHasFixedSize(true);
         horizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         horizontalRecyclerView.setAdapter(adapter);

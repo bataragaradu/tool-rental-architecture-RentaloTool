@@ -34,4 +34,7 @@ public class RentaloToolClient  {
         new RetrieveToolAvailabilityTask(toolId, onSuccessListener, onErrorListener).execute();
     }
 
+    public void retrieveToolsByCategory(Integer categoryId,OnSuccessListener<Tool[]> onSuccessCategoryProcessListener, OnSuccessListener<Tool[]> onSuccessCategoryProcessListener1) {
+        new RetrieveToolsByCategoryTask(categoryId, onSuccessCategoryProcessListener, onSuccessCategoryProcessListener1).execute();
+    }
 }

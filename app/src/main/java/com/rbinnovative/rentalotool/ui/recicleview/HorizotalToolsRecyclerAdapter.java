@@ -12,18 +12,29 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rbinnovative.rentalotool.R;
+import com.rbinnovative.rentalotool.config.DaggerRepositoryToolIoC;
+import com.rbinnovative.rentalotool.controller.listener.OnSuccessListener;
 import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Tool;
+import com.rbinnovative.rentalotool.service.RentaloToolClient;
+import com.rbinnovative.rentalotool.ui.activity.MainApplication;
+
+import javax.inject.Inject;
 
 public class HorizotalToolsRecyclerAdapter extends RecyclerView.Adapter<HorizotalToolsRecyclerAdapter.HorizontalViewHolder> {
     public static final String TAG = HorizotalToolsRecyclerAdapter.class.getSimpleName();
 
+    @Inject
+    RentaloToolClient rentaloToolClient;
     private final Category[] categories;
     private final Context context;
+    private final OnSuccessListener<Tool[]> onSuccessCategoryProcessListener;
 
-    public HorizotalToolsRecyclerAdapter(Category[] categories, Context context) {
+    public HorizotalToolsRecyclerAdapter(Category[] categories, Context context, OnSuccessListener<Tool[]> onSuccessListener ) {
         this.categories = categories;
         this.context = context;
+        this.onSuccessCategoryProcessListener= onSuccessListener;
+        DaggerRepositoryToolIoC.builder().build().inject(this);
     }
 
     @NonNull
@@ -46,8 +57,9 @@ public class HorizotalToolsRecyclerAdapter extends RecyclerView.Adapter<Horizota
         return categories.length;
     }
 
-    private void loadOneToolActiviy(View view, Category tool) {
-        Log.d(TAG, "Pressed on tool:" + tool);
+    private void loadOneToolActiviy(View view, Category category) {
+        rentaloToolClient.retrieveToolsByCategory(category.getId(), onSuccessCategoryProcessListener, onSuccessCategoryProcessListener);
+        Log.d(TAG, "Pressed on tool:" + category);
     }
 
     public static class HorizontalViewHolder extends RecyclerView.ViewHolder {

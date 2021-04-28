@@ -14,4 +14,8 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
     }
+
+    public RepositoryToolIoC getAppComponent() {
+        return appComponent;
+    }
 }
