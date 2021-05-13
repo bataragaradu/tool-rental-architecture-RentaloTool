@@ -21,6 +21,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.rbinnovative.rentalotool.utils.Constants.ACTIVITY_MAPPING_USER_ID;
+
 public class LandingScrollingActivity extends AppCompatActivity {
 
     @Inject
@@ -34,6 +36,7 @@ public class LandingScrollingActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     @BindView(R.id.categoryVerticalRecyclerView)
     RecyclerView horizontalRecyclerView;
+    private String currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,9 @@ public class LandingScrollingActivity extends AppCompatActivity {
         ((MainApplication) getApplicationContext()).appComponent.inject(this);
         setContentView(R.layout.landing_main_layout);
         ButterKnife.bind(this);
-        prepareUi();
+        if (getIntent().hasExtra(ACTIVITY_MAPPING_USER_ID)) {
+            this.currentUserId = (String) getIntent().getExtras().get(ACTIVITY_MAPPING_USER_ID);
+        }
         rentaloToolClient.retrieveTools(
                 ((successRetrievedTools) -> runOnUiThread(() -> prepareAndPopulateToolsReciclerView(successRetrievedTools))),
                 ((failureRetrieved) ->  runOnUiThread(() -> prepareAndPopulateToolsReciclerView(failureRetrieved))));
@@ -70,7 +75,7 @@ public class LandingScrollingActivity extends AppCompatActivity {
     }
 
     private void prepareAndPopulateToolsReciclerView(Tool[] tools) {
-        ToolsRecyclerAdapter adapter = new ToolsRecyclerAdapter(tools, recyclerView.getContext());
+        ToolsRecyclerAdapter adapter = new ToolsRecyclerAdapter(tools, currentUserId, recyclerView.getContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -81,10 +86,5 @@ public class LandingScrollingActivity extends AppCompatActivity {
         horizontalRecyclerView.setHasFixedSize(true);
         horizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         horizontalRecyclerView.setAdapter(adapter);
-    }
-
-    private void prepareUi() {
-//        setSupportActionBar(toolbar);
-//        toolBarLayout.setTitle(getTitle());
     }
 }

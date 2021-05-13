@@ -17,16 +17,21 @@ import com.rbinnovative.rentalotool.model.Tool;
 import com.rbinnovative.rentalotool.ui.activity.DetailedToolActivity;
 import com.squareup.picasso.Picasso;
 
+import static com.rbinnovative.rentalotool.utils.Constants.ACTIVITY_MAPPING_CURRENT_TOOL;
+import static com.rbinnovative.rentalotool.utils.Constants.ACTIVITY_MAPPING_USER_ID;
+
 public class ToolsRecyclerAdapter extends RecyclerView.Adapter<ToolsRecyclerAdapter.ViewHolder>{
 
     public static final String TAG = ToolsRecyclerAdapter.class.getSimpleName();
 
     private final Context context;
+    private final String userId;
     private Tool[] listTools;
 
-    public ToolsRecyclerAdapter(Tool[] listTools, Context context) {
+    public ToolsRecyclerAdapter(Tool[] listTools, String currentUserId, Context context) {
         this.listTools = listTools;
         this.context = context;
+        this.userId = currentUserId;
     }
 
     @Override
@@ -49,9 +54,8 @@ public class ToolsRecyclerAdapter extends RecyclerView.Adapter<ToolsRecyclerAdap
     private void loadOneToolActiviy(View view, Tool tool) {
         Log.d(TAG, "Pressed on tool:" + tool);
         Intent intent = new Intent(view.getContext(), DetailedToolActivity.class);
-        intent.putExtra("currentToolId", tool.getId());
-//        intent.getExtras().putString ("name", tool.getName());
-//        intent.getExtras().putString("imageUrl", tool.getImageUrl());
+        intent.putExtra(ACTIVITY_MAPPING_USER_ID, userId);
+        intent.putExtra(ACTIVITY_MAPPING_CURRENT_TOOL, tool);
         context.startActivity(intent);
         Toast.makeText(view.getContext(),"click on item: "+ tool.getId(),Toast.LENGTH_LONG).show();
     }

@@ -17,6 +17,7 @@ import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.rbinnovative.rentalotool.R;
 import com.rbinnovative.rentalotool.model.Order;
+import com.rbinnovative.rentalotool.model.Tool;
 import com.rbinnovative.rentalotool.service.web.RentaloToolClient;
 import com.rbinnovative.rentalotool.ui.validator.RestrictiveDateValidator;
 import com.rbinnovative.rentalotool.ui.validator.WeekDayValidator;
@@ -36,6 +37,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.rbinnovative.rentalotool.utils.Constants.ACTIVITY_MAPPING_CURRENT_TOOL;
+import static com.rbinnovative.rentalotool.utils.Constants.ACTIVITY_MAPPING_USER_ID;
+
 
 public class DetailedToolActivity extends AppCompatActivity {
 
@@ -51,15 +55,19 @@ public class DetailedToolActivity extends AppCompatActivity {
     RentaloToolClient rentaloToolClient;
 
     private String[] toolAvailability;
-    private Integer toolId;
+    private Tool toolId;
+    private String currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MainApplication) getApplicationContext()).appComponent.inject(this);
         setContentView(R.layout.tool_detail_reservation);
-        if (getIntent().hasExtra("currentToolId")) {
-            this.toolId = (Integer) getIntent().getExtras().get("currentToolId");
+        if (getIntent().hasExtra(ACTIVITY_MAPPING_CURRENT_TOOL)) {
+            this.toolId = getIntent().getParcelableExtra(ACTIVITY_MAPPING_CURRENT_TOOL);
+        }
+        if (getIntent().hasExtra(ACTIVITY_MAPPING_USER_ID)) {
+            this.currentUserId = (String) getIntent().getExtras().get(ACTIVITY_MAPPING_USER_ID);
         }
         ButterKnife.bind(this);
         prepareUi();
@@ -97,7 +105,7 @@ public class DetailedToolActivity extends AppCompatActivity {
 
     private void makeReservation() {
         CharSequence asd = dateValueTextView.getText();
-        Order order = new Order("pending", "userId", toolId, LocalDate.now(), LocalDate.now());
+        Order order = new Order("pending", currentUserId, toolId.getId(), LocalDate.now(), LocalDate.now());
         rentaloToolClient.makeReservation(order,
                 ((successRetrievedTools) -> runOnUiThread(() -> reservationButton.setEnabled(true))),
                 ((failureRetrieved) -> runOnUiThread(() -> reservationButton.setEnabled(false))));

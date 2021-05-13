@@ -25,6 +25,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.rbinnovative.rentalotool.utils.Constants.ACTIVITY_MAPPING_USER_ID;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -83,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(account!=null){
-            onLoginSuccess(account.toString());
+            onLoginSuccess(account.getId());
         }
     }
 
@@ -96,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // Signed in successfully, show authenticated UI.
+
             onLoginSuccess(account.toString());
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
@@ -129,8 +132,7 @@ public class LoginActivity extends AppCompatActivity {
         _loginButton.setEnabled(false);
         snackbar.dismiss();
         Intent intent = new Intent(getApplicationContext(), LandingScrollingActivity.class);
-        intent.putExtra("token", token);
-        intent.putExtra(USERNAME, _emailText.getText().toString());
+        intent.putExtra(ACTIVITY_MAPPING_USER_ID, token);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
