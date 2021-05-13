@@ -13,12 +13,10 @@ public class Tool implements Parcelable {
     @SerializedName("imageUrl")
     private String imageUrl;
 
-    public Tool() {
-    }
-
-    public Tool(Integer id, String name) {
+    public Tool(Integer id, String name, String imageUrl) {
         this.id = id;
         this.name = name;
+        this.imageUrl = imageUrl;
     }
 
     protected Tool(Parcel in) {
@@ -65,14 +63,6 @@ public class Tool implements Parcelable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    @Override
-    public String toString() {
-        return "Tool{" +
-                "id='" + id + '\'' +
-                ", name=" + name +
-                '}';
     }
 
     @Override

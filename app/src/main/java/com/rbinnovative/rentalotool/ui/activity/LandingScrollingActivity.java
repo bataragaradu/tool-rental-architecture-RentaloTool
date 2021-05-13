@@ -1,5 +1,6 @@
 package com.rbinnovative.rentalotool.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.rbinnovative.rentalotool.R;
@@ -15,12 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.rbinnovative.rentalotool.utils.Constants.ACTIVITY_MAPPING_CURRENT_TOOL;
 import static com.rbinnovative.rentalotool.utils.Constants.ACTIVITY_MAPPING_USER_ID;
 
 public class LandingScrollingActivity extends AppCompatActivity {
@@ -28,8 +31,8 @@ public class LandingScrollingActivity extends AppCompatActivity {
     @Inject
     RentaloToolClient rentaloToolClient;
 
-//    @BindView(R.id.toolbar)
-//    Toolbar toolbar;
+    @BindView(R.id.imageView3)
+    ImageView rentaloToolLogoImage;
 //    @BindView(R.id.toolbar_layout)
 //    CollapsingToolbarLayout toolBarLayout;
     @BindView(R.id.recyclerView)
@@ -44,15 +47,25 @@ public class LandingScrollingActivity extends AppCompatActivity {
         ((MainApplication) getApplicationContext()).appComponent.inject(this);
         setContentView(R.layout.landing_main_layout);
         ButterKnife.bind(this);
+
         if (getIntent().hasExtra(ACTIVITY_MAPPING_USER_ID)) {
             this.currentUserId = (String) getIntent().getExtras().get(ACTIVITY_MAPPING_USER_ID);
         }
+        rentaloToolLogoImage.setOnClickListener((click) -> {
+            Intent toolsLandingActivityIntent = new Intent(this.getApplicationContext(), LandingScrollingActivity.class);
+            toolsLandingActivityIntent.putExtra(ACTIVITY_MAPPING_USER_ID, currentUserId);
+            startActivity(toolsLandingActivityIntent);
+        });
         rentaloToolClient.retrieveTools(
                 ((successRetrievedTools) -> runOnUiThread(() -> prepareAndPopulateToolsReciclerView(successRetrievedTools))),
                 ((failureRetrieved) ->  runOnUiThread(() -> prepareAndPopulateToolsReciclerView(failureRetrieved))));
         rentaloToolClient.retrieveCategory(
                 ((successRetrievedCategory) -> runOnUiThread(() -> prepareAndPopulateCategoryRecyclerView(successRetrievedCategory))),
                 ((failureRetrieved) ->  runOnUiThread(() -> prepareAndPopulateCategoryRecyclerView(failureRetrieved))));
+    }
+
+    private void asda() {
+
     }
 
     @Override

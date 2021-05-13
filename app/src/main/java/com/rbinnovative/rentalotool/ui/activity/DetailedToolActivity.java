@@ -1,9 +1,11 @@
 package com.rbinnovative.rentalotool.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +23,7 @@ import com.rbinnovative.rentalotool.model.Tool;
 import com.rbinnovative.rentalotool.service.web.RentaloToolClient;
 import com.rbinnovative.rentalotool.ui.validator.RestrictiveDateValidator;
 import com.rbinnovative.rentalotool.ui.validator.WeekDayValidator;
+import com.squareup.picasso.Picasso;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -51,11 +54,19 @@ public class DetailedToolActivity extends AppCompatActivity {
     Button updateDateButton;
     @BindView(R.id.reservationButton)
     AppCompatButton reservationButton;
+    @BindView(R.id.details_tool_image)
+    ImageView detailsToolImage;
+    @BindView(R.id.details_tool_text)
+    TextView detailsToolText;
+    @BindView(R.id.details_tools_description)
+    TextView detailsToolDescription;
+    @BindView(R.id.imageView3)
+    ImageView rentaloToolLogoImage;
     @Inject
     RentaloToolClient rentaloToolClient;
 
     private String[] toolAvailability;
-    private Tool toolId;
+    private Tool tool;
     private String currentUserId;
 
     @Override
@@ -63,13 +74,22 @@ public class DetailedToolActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ((MainApplication) getApplicationContext()).appComponent.inject(this);
         setContentView(R.layout.tool_detail_reservation);
+        ButterKnife.bind(this);
         if (getIntent().hasExtra(ACTIVITY_MAPPING_CURRENT_TOOL)) {
-            this.toolId = getIntent().getParcelableExtra(ACTIVITY_MAPPING_CURRENT_TOOL);
+            this.tool = getIntent().getParcelableExtra(ACTIVITY_MAPPING_CURRENT_TOOL);
+            Picasso.get()
+                    .load(tool.getImageUrl())
+                    .into(detailsToolImage);
+            this.detailsToolText.setText(tool.getName());
         }
         if (getIntent().hasExtra(ACTIVITY_MAPPING_USER_ID)) {
             this.currentUserId = (String) getIntent().getExtras().get(ACTIVITY_MAPPING_USER_ID);
         }
-        ButterKnife.bind(this);
+        rentaloToolLogoImage.setOnClickListener((click) -> {
+            Intent toolsLandingActivityIntent = new Intent(this.getApplicationContext(), LandingScrollingActivity.class);
+            toolsLandingActivityIntent.putExtra(ACTIVITY_MAPPING_USER_ID, currentUserId);
+            startActivity(toolsLandingActivityIntent);
+        });
         prepareUi();
     }
 
@@ -93,19 +113,16 @@ public class DetailedToolActivity extends AppCompatActivity {
     }
 
     private void prepareUi() {
-        //TODO: send though INTent extra the tool id
         toolAvailability = new String[0];
         rentaloToolClient.retrieveToolAvailability(3,
                 ((successRetrievedTools) -> runOnUiThread(() -> toolAvailability = successRetrievedTools)),
                 ((failureRetrieved) -> runOnUiThread(() -> toolAvailability = failureRetrieved)));
         updateDateButton.setOnClickListener(v -> selectReservationDate());
         reservationButton.setOnClickListener(v -> makeReservation());
-//        setSupportActionBar(toolbar);
     }
 
     private void makeReservation() {
-        CharSequence asd = dateValueTextView.getText();
-        Order order = new Order("pending", currentUserId, toolId.getId(), LocalDate.now(), LocalDate.now());
+        Order order = new Order("pending", currentUserId, tool.getId(), LocalDate.now(), LocalDate.now());
         rentaloToolClient.makeReservation(order,
                 ((successRetrievedTools) -> runOnUiThread(() -> reservationButton.setEnabled(true))),
                 ((failureRetrieved) -> runOnUiThread(() -> reservationButton.setEnabled(false))));

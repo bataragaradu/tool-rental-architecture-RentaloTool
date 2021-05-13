@@ -26,69 +26,35 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.1" />
 
-<!--        &lt;!&ndash; Name Label &ndash;&gt;-->
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="8dp"-->
-<!--            android:layout_marginTop="8dp">-->
+        <ImageView
+            android:id="@+id/details_tool_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:contentDescription="Icon" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/input_name"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:hint="Name"-->
-<!--                android:inputType="textPersonName"/>-->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
+        <TextView
+            android:id="@+id/details_tool_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/imageView"
+            android:layout_toRightOf="@id/imageView"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:textSize="50sp"/>
 
-<!--        &lt;!&ndash; Address Label &ndash;&gt;-->
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="8dp"-->
-<!--            android:layout_marginTop="8dp">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/input_address"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:hint="Address"-->
-<!--                android:inputType="textPostalAddress"/>-->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-
-<!--        &lt;!&ndash;  Email Label &ndash;&gt;-->
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="8dp"-->
-<!--            android:layout_marginTop="8dp">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/input_email"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:hint="Email"-->
-<!--                android:inputType="textEmailAddress"/>-->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-
-<!--        &lt;!&ndash; Password Label &ndash;&gt;-->
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="8dp"-->
-<!--            android:layout_marginTop="8dp">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/input_password"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:hint="Password"-->
-<!--                android:inputType="textPassword"/>-->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-
+        <TextView
+            android:id="@+id/details_tools_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="12dp"
+            android:text="Generic description from the company of the product"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         <Button
             android:layout_width="fill_parent"
             android:gravity="center"
