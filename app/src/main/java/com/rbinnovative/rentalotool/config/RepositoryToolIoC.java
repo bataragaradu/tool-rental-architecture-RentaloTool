@@ -1,6 +1,6 @@
 package com.rbinnovative.rentalotool.config;
 
-import com.rbinnovative.rentalotool.service.RentaloToolClient;
+import com.rbinnovative.rentalotool.service.web.RentaloToolClient;
 import com.rbinnovative.rentalotool.ui.activity.DetailedToolActivity;
 import com.rbinnovative.rentalotool.ui.activity.LandingScrollingActivity;
 import com.rbinnovative.rentalotool.ui.recicleview.HorizotalToolsRecyclerAdapter;

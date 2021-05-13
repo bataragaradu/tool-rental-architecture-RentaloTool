@@ -1,10 +1,10 @@
-package com.rbinnovative.rentalotool.service;
+package com.rbinnovative.rentalotool.service.web.tasks;
 
 import android.os.AsyncTask;
 
-import com.rbinnovative.rentalotool.controller.listener.OnErrorListener;
 import com.rbinnovative.rentalotool.controller.listener.OnSuccessListener;
 import com.rbinnovative.rentalotool.model.Tool;
+import com.rbinnovative.rentalotool.service.web.api.ToolsApi;
 
 import java.io.IOException;
 
@@ -14,19 +14,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.rbinnovative.rentalotool.utils.Constants.TOOLS_API__URL;
 
-class RetrieveToolsTask extends AsyncTask<Void, Void, Tool[]> {
-
+public class RetrieveToolsByCategoryTask extends AsyncTask<Integer, Void, Tool[]> {
+    private final Integer categoryId;
     private final OnSuccessListener<Tool[]> onSuccessListener;
-    private final OnErrorListener<Tool[]> onErrorListener;
 
-    public RetrieveToolsTask(OnSuccessListener<Tool[]> onSuccessListener, OnErrorListener<Tool[]>
-            onErrorListener) {
-        this.onSuccessListener = onSuccessListener;
-        this.onErrorListener = onErrorListener;
+    public RetrieveToolsByCategoryTask(Integer categoryId, OnSuccessListener<Tool[]> onSuccessCategoryProcessListener, OnSuccessListener<Tool[]> onSuccessCategoryProcessListener1) {
+        this.categoryId = categoryId;
+        this.onSuccessListener = onSuccessCategoryProcessListener;
     }
 
+
     @Override
-    protected Tool[] doInBackground(Void[] params) {
+    protected Tool[] doInBackground(Integer... integers) {
 
         Tool[] result = new Tool[0];
         Retrofit retrofit = new Retrofit.Builder()
@@ -38,7 +37,7 @@ class RetrieveToolsTask extends AsyncTask<Void, Void, Tool[]> {
 
         try {
             Response<Tool[]> response =
-                    service.getAllTools().execute();
+                    service.getToolsByCategoryId(categoryId).execute();
             if (response.isSuccessful()) {
                 // success
                 result = response.body();
@@ -48,7 +47,7 @@ class RetrieveToolsTask extends AsyncTask<Void, Void, Tool[]> {
                 onSuccessListener.onSuccess(result);
             }
         } catch (IOException e) {
-            onErrorListener.onFailure(result);
+            onSuccessListener.onSuccess(result);
         }
         return result;
     }

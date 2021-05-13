@@ -1,4 +1,4 @@
-package com.rbinnovative.rentalotool.service;
+package com.rbinnovative.rentalotool.service.web.tasks;
 
 import android.os.AsyncTask;
 
@@ -6,9 +6,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rbinnovative.rentalotool.controller.listener.OnErrorListener;
 import com.rbinnovative.rentalotool.controller.listener.OnSuccessListener;
-import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Order;
-import com.rbinnovative.rentalotool.service.serializer.LocalDateAdapter;
+import com.rbinnovative.rentalotool.service.web.api.OrdersApi;
+import com.rbinnovative.rentalotool.service.web.serializer.LocalDateAdapter;
 
 import java.io.IOException;
 import java.time.LocalDate;

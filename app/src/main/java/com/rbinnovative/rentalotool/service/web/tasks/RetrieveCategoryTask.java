@@ -1,9 +1,11 @@
-package com.rbinnovative.rentalotool.service;
+package com.rbinnovative.rentalotool.service.web.tasks;
 
 import android.os.AsyncTask;
 
+import com.rbinnovative.rentalotool.controller.listener.OnErrorListener;
 import com.rbinnovative.rentalotool.controller.listener.OnSuccessListener;
-import com.rbinnovative.rentalotool.model.Tool;
+import com.rbinnovative.rentalotool.model.Category;
+import com.rbinnovative.rentalotool.service.web.api.ToolsApi;
 
 import java.io.IOException;
 
@@ -13,30 +15,29 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.rbinnovative.rentalotool.utils.Constants.TOOLS_API__URL;
 
-public class RetrieveToolsByCategoryTask extends AsyncTask<Integer, Void, Tool[]> {
-    private final Integer categoryId;
-    private final OnSuccessListener<Tool[]> onSuccessListener;
+public class RetrieveCategoryTask extends AsyncTask<Void, Void, Category[]> {
+    private final OnSuccessListener<Category[]> onSuccessListener;
+    private final OnErrorListener<Category[]> onErrorListener;
 
-    public RetrieveToolsByCategoryTask(Integer categoryId, OnSuccessListener<Tool[]> onSuccessCategoryProcessListener, OnSuccessListener<Tool[]> onSuccessCategoryProcessListener1) {
-        this.categoryId = categoryId;
-        this.onSuccessListener = onSuccessCategoryProcessListener;
+    public RetrieveCategoryTask(OnSuccessListener<Category[]> onSuccessListener, OnErrorListener<Category[]> onErrorListener) {
+        this.onSuccessListener = onSuccessListener;
+        this.onErrorListener = onErrorListener;
     }
 
 
     @Override
-    protected Tool[] doInBackground(Integer... integers) {
+    protected Category[] doInBackground(Void... voids) {
+        Category[] result = new Category[0];
 
-        Tool[] result = new Tool[0];
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(TOOLS_API__URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         ToolsApi service = retrofit.create(ToolsApi.class);
 
         try {
-            Response<Tool[]> response =
-                    service.getToolsByCategoryId(categoryId).execute();
+            Response<Category[]> response =
+                    service.getAllCategories().execute();
             if (response.isSuccessful()) {
                 // success
                 result = response.body();
@@ -46,7 +47,7 @@ public class RetrieveToolsByCategoryTask extends AsyncTask<Integer, Void, Tool[]
                 onSuccessListener.onSuccess(result);
             }
         } catch (IOException e) {
-            onSuccessListener.onSuccess(result);
+            onErrorListener.onFailure(result);
         }
         return result;
     }

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.rbinnovative.rentalotool.R;
 import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Tool;
-import com.rbinnovative.rentalotool.service.RentaloToolClient;
+import com.rbinnovative.rentalotool.service.web.RentaloToolClient;
 import com.rbinnovative.rentalotool.ui.recicleview.HorizotalToolsRecyclerAdapter;
 import com.rbinnovative.rentalotool.ui.recicleview.ToolsRecyclerAdapter;
 

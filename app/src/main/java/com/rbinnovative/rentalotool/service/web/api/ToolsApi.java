@@ -1,4 +1,4 @@
-package com.rbinnovative.rentalotool.service;
+package com.rbinnovative.rentalotool.service.web.api;
 
 import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Order;

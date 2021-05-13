@@ -16,8 +16,7 @@ import com.rbinnovative.rentalotool.config.DaggerRepositoryToolIoC;
 import com.rbinnovative.rentalotool.controller.listener.OnSuccessListener;
 import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Tool;
-import com.rbinnovative.rentalotool.service.RentaloToolClient;
-import com.rbinnovative.rentalotool.ui.activity.MainApplication;
+import com.rbinnovative.rentalotool.service.web.RentaloToolClient;
 
 import javax.inject.Inject;
 

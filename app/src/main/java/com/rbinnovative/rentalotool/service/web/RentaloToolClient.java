@@ -1,12 +1,15 @@
-package com.rbinnovative.rentalotool.service;
+package com.rbinnovative.rentalotool.service.web;
 
 import com.rbinnovative.rentalotool.controller.listener.OnErrorListener;
 import com.rbinnovative.rentalotool.controller.listener.OnSuccessListener;
 import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Order;
 import com.rbinnovative.rentalotool.model.Tool;
-
-import java.time.LocalDate;
+import com.rbinnovative.rentalotool.service.web.tasks.CreateReservationTask;
+import com.rbinnovative.rentalotool.service.web.tasks.RetrieveCategoryTask;
+import com.rbinnovative.rentalotool.service.web.tasks.RetrieveToolAvailabilityTask;
+import com.rbinnovative.rentalotool.service.web.tasks.RetrieveToolsByCategoryTask;
+import com.rbinnovative.rentalotool.service.web.tasks.RetrieveToolsTask;
 
 import javax.inject.Inject;
 /*

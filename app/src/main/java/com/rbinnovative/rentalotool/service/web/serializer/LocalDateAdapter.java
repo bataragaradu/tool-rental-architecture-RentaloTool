@@ -1,4 +1,4 @@
-package com.rbinnovative.rentalotool.service.serializer;
+package com.rbinnovative.rentalotool.service.web.serializer;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;

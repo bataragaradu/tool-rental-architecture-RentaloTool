@@ -1,11 +1,11 @@
-package com.rbinnovative.rentalotool.service;
+package com.rbinnovative.rentalotool.service.web.tasks;
 
 import android.os.AsyncTask;
 
 import com.rbinnovative.rentalotool.controller.listener.OnErrorListener;
 import com.rbinnovative.rentalotool.controller.listener.OnSuccessListener;
-import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Tool;
+import com.rbinnovative.rentalotool.service.web.api.ToolsApi;
 
 import java.io.IOException;
 
@@ -15,29 +15,31 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.rbinnovative.rentalotool.utils.Constants.TOOLS_API__URL;
 
-public class RetrieveCategoryTask extends AsyncTask<Void, Void, Category[]> {
-    private final OnSuccessListener<Category[]> onSuccessListener;
-    private final OnErrorListener<Category[]> onErrorListener;
+public class RetrieveToolsTask extends AsyncTask<Void, Void, Tool[]> {
 
-    public RetrieveCategoryTask(OnSuccessListener<Category[]> onSuccessListener, OnErrorListener<Category[]> onErrorListener) {
+    private final OnSuccessListener<Tool[]> onSuccessListener;
+    private final OnErrorListener<Tool[]> onErrorListener;
+
+    public RetrieveToolsTask(OnSuccessListener<Tool[]> onSuccessListener, OnErrorListener<Tool[]>
+            onErrorListener) {
         this.onSuccessListener = onSuccessListener;
         this.onErrorListener = onErrorListener;
     }
 
-
     @Override
-    protected Category[] doInBackground(Void... voids) {
-        Category[] result = new Category[0];
+    protected Tool[] doInBackground(Void[] params) {
 
+        Tool[] result = new Tool[0];
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(TOOLS_API__URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
         ToolsApi service = retrofit.create(ToolsApi.class);
 
         try {
-            Response<Category[]> response =
-                    service.getAllCategories().execute();
+            Response<Tool[]> response =
+                    service.getAllTools().execute();
             if (response.isSuccessful()) {
                 // success
                 result = response.body();
