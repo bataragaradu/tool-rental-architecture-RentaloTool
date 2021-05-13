@@ -37,7 +37,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @Inject
     ValidationService validationService;
-
     @BindView(R.id.input_email)
     EditText _emailText;
     @BindView(R.id.input_password)

@@ -16,6 +16,7 @@ import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.rbinnovative.rentalotool.R;
+import com.rbinnovative.rentalotool.model.Order;
 import com.rbinnovative.rentalotool.service.RentaloToolClient;
 import com.rbinnovative.rentalotool.ui.validator.RestrictiveDateValidator;
 import com.rbinnovative.rentalotool.ui.validator.WeekDayValidator;
@@ -52,14 +53,16 @@ public class DetailedToolActivity extends AppCompatActivity {
     RentaloToolClient rentaloToolClient;
 
     private String[] toolAvailability;
-//    @Inject
-//    ToolService toolService;
+    private Integer toolId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MainApplication) getApplicationContext()).appComponent.inject(this);
         setContentView(R.layout.tool_detail_reservation);
+        if (getIntent().hasExtra("currentToolId")) {
+            this.toolId = (Integer) getIntent().getExtras().get("currentToolId");
+        }
         ButterKnife.bind(this);
         prepareUi();
     }
@@ -87,14 +90,19 @@ public class DetailedToolActivity extends AppCompatActivity {
         //TODO: send though INTent extra the tool id
         toolAvailability = new String[0];
         rentaloToolClient.retrieveToolAvailability(3,
-                ((successRetrievedTools) -> runOnUiThread(() -> loadToolAvailability(successRetrievedTools))),
-                ((failureRetrieved) -> runOnUiThread(() -> loadToolAvailability(failureRetrieved))));
+                ((successRetrievedTools) -> runOnUiThread(() -> toolAvailability = successRetrievedTools)),
+                ((failureRetrieved) -> runOnUiThread(() -> toolAvailability = failureRetrieved)));
         updateDateButton.setOnClickListener(v -> selectReservationDate());
+        reservationButton.setOnClickListener(v -> makeReservation());
 //        setSupportActionBar(toolbar);
     }
 
-    private void loadToolAvailability(String[] retrievedToolAvailability) {
-        this.toolAvailability = retrievedToolAvailability;
+    private void makeReservation() {
+        CharSequence asd = dateValueTextView.getText();
+        Order order = new Order("pending", "userId", toolId, LocalDate.now(), LocalDate.now());
+        rentaloToolClient.makeReservation(order,
+                ((successRetrievedTools) -> runOnUiThread(() -> reservationButton.setEnabled(true))),
+                ((failureRetrieved) -> runOnUiThread(() -> reservationButton.setEnabled(false))));
     }
 
     private void selectReservationDate() {
@@ -114,8 +122,8 @@ public class DetailedToolActivity extends AppCompatActivity {
         pickerRange.addOnPositiveButtonClickListener(selection -> {
             LocalDate startDate = Instant.ofEpochMilli(selection.first).atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate endDate = Instant.ofEpochMilli(selection.second).atZone(ZoneId.systemDefault()).toLocalDate();
-            dateValueTextView.setText("Selected date: " + (startDate.getDayOfMonth()) + "/" + startDate.getMonth() + "/" + startDate.getYear());
-            dateValueMaxValueSelected.setText("Selected date: " + (endDate.getDayOfMonth()) + "/" + endDate.getMonth() + "/" + endDate.getYear());
+            dateValueTextView.setText("Rental starts: " + (startDate.getDayOfMonth()) + "/" + startDate.getMonth() + "/" + startDate.getYear());
+            dateValueMaxValueSelected.setText("Rental ends: " + (endDate.getDayOfMonth()) + "/" + endDate.getMonth() + "/" + endDate.getYear());
             reservationButton.setEnabled(true);
         });
     }

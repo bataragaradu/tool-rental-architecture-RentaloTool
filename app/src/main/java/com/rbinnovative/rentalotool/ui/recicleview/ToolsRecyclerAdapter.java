@@ -49,8 +49,8 @@ public class ToolsRecyclerAdapter extends RecyclerView.Adapter<ToolsRecyclerAdap
     private void loadOneToolActiviy(View view, Tool tool) {
         Log.d(TAG, "Pressed on tool:" + tool);
         Intent intent = new Intent(view.getContext(), DetailedToolActivity.class);
-//        intent.getExtras().putInt("id", tool.getId().intValue());
-//        intent.getExtras().putString("name", tool.getName());
+        intent.putExtra("currentToolId", tool.getId());
+//        intent.getExtras().putString ("name", tool.getName());
 //        intent.getExtras().putString("imageUrl", tool.getImageUrl());
         context.startActivity(intent);
         Toast.makeText(view.getContext(),"click on item: "+ tool.getId(),Toast.LENGTH_LONG).show();

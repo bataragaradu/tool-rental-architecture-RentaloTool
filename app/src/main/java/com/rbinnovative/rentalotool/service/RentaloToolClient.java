@@ -3,6 +3,7 @@ package com.rbinnovative.rentalotool.service;
 import com.rbinnovative.rentalotool.controller.listener.OnErrorListener;
 import com.rbinnovative.rentalotool.controller.listener.OnSuccessListener;
 import com.rbinnovative.rentalotool.model.Category;
+import com.rbinnovative.rentalotool.model.Order;
 import com.rbinnovative.rentalotool.model.Tool;
 
 import java.time.LocalDate;
@@ -34,7 +35,12 @@ public class RentaloToolClient  {
         new RetrieveToolAvailabilityTask(toolId, onSuccessListener, onErrorListener).execute();
     }
 
-    public void retrieveToolsByCategory(Integer categoryId,OnSuccessListener<Tool[]> onSuccessCategoryProcessListener, OnSuccessListener<Tool[]> onSuccessCategoryProcessListener1) {
-        new RetrieveToolsByCategoryTask(categoryId, onSuccessCategoryProcessListener, onSuccessCategoryProcessListener1).execute();
+    public void retrieveToolsByCategory(Integer categoryId,OnSuccessListener<Tool[]> onSuccessCategoryProcessListener, OnSuccessListener<Tool[]> onErrorListener) {
+        new RetrieveToolsByCategoryTask(categoryId, onSuccessCategoryProcessListener, onErrorListener).execute();
+    }
+
+    //TODO: Orders client(Or big client)
+    public void makeReservation(Order order, OnSuccessListener<Void> onSuccessCategoryProcessListener, OnErrorListener<Void> onErrorListener) {
+        new CreateReservationTask(order, onSuccessCategoryProcessListener, onErrorListener).execute();
     }
 }
