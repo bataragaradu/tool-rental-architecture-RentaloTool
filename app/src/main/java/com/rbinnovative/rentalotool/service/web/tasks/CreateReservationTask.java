@@ -4,10 +4,10 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.rbinnovative.rentalotool.controller.listener.OnErrorListener;
-import com.rbinnovative.rentalotool.controller.listener.OnSuccessListener;
 import com.rbinnovative.rentalotool.model.Order;
 import com.rbinnovative.rentalotool.service.web.api.OrdersApi;
+import com.rbinnovative.rentalotool.service.web.listeners.OnErrorListener;
+import com.rbinnovative.rentalotool.service.web.listeners.OnSuccessListener;
 import com.rbinnovative.rentalotool.service.web.serializer.LocalDateAdapter;
 
 import java.io.IOException;

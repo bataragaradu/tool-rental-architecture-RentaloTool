@@ -3,6 +3,10 @@ package com.rbinnovative.rentalotool.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.rbinnovative.rentalotool.R;
 import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Tool;
@@ -40,6 +44,7 @@ public class LandingScrollingActivity extends AppCompatActivity {
     @BindView(R.id.categoryVerticalRecyclerView)
     RecyclerView horizontalRecyclerView;
     private String currentUserId;
+    private GoogleSignInClient googleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,7 @@ public class LandingScrollingActivity extends AppCompatActivity {
         ((MainApplication) getApplicationContext()).appComponent.inject(this);
         setContentView(R.layout.landing_main_layout);
         ButterKnife.bind(this);
-
+        prepareGoogleSignIn();
         if (getIntent().hasExtra(ACTIVITY_MAPPING_USER_ID)) {
             this.currentUserId = (String) getIntent().getExtras().get(ACTIVITY_MAPPING_USER_ID);
         }
@@ -64,8 +69,16 @@ public class LandingScrollingActivity extends AppCompatActivity {
                 ((failureRetrieved) ->  runOnUiThread(() -> prepareAndPopulateCategoryRecyclerView(failureRetrieved))));
     }
 
-    private void asda() {
+    private void prepareGoogleSignIn() {
+        // Configure Google Sign In
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
 
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
     }
 
     @Override
@@ -82,7 +95,14 @@ public class LandingScrollingActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            return true;
+//            return true;
+            googleSignInClient.signOut()
+                    .addOnCompleteListener(this, task -> runOnUiThread(() -> {
+                        if (task.isSuccessful()) {
+                            Intent toolsLandingActivityIntent = new Intent(this.getApplicationContext(), LoginActivity.class);
+                            startActivity(toolsLandingActivityIntent);
+                        }
+                    }));
         }
         return super.onOptionsItemSelected(item);
     }

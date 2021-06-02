@@ -108,7 +108,7 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="action_settings">Profile</string>
+    <string name="action_settings">Logout</string>
     <string name="title_activity_mockup_main">MockupMain</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -121,4 +121,9 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="title_activity_mockup_mainm">MockupMainActivity</string>
     <string name="title_activity_user_navigation">UserNavigation</string>
+    <string name="title_activity_login2">LoginActivity2</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

@@ -3,7 +3,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-<!--    recicle-->
+    <!--    recicle-->
     <dimen name="activity_horizontal_margin">8dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="ic_clear_margin">56dp</dimen>

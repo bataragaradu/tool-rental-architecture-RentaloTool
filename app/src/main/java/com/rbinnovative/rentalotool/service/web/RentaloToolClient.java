@@ -1,7 +1,7 @@
 package com.rbinnovative.rentalotool.service.web;
 
-import com.rbinnovative.rentalotool.controller.listener.OnErrorListener;
-import com.rbinnovative.rentalotool.controller.listener.OnSuccessListener;
+import com.rbinnovative.rentalotool.service.web.listeners.OnErrorListener;
+import com.rbinnovative.rentalotool.service.web.listeners.OnSuccessListener;
 import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Order;
 import com.rbinnovative.rentalotool.model.Tool;

@@ -33,5 +33,4 @@ public interface ToolsApi {
     public Call<String[]> getToolAvailability(@Path("id") Integer id);
     @GET("/tools")
     public Call<Tool[]> getToolsByCategoryId(@Query("categoryId") Integer categoryId);
-
 }

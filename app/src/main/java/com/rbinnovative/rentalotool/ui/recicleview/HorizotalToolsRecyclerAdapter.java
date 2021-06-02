@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rbinnovative.rentalotool.R;
 import com.rbinnovative.rentalotool.config.DaggerRepositoryToolIoC;
-import com.rbinnovative.rentalotool.controller.listener.OnSuccessListener;
+import com.rbinnovative.rentalotool.service.web.listeners.OnSuccessListener;
 import com.rbinnovative.rentalotool.model.Category;
 import com.rbinnovative.rentalotool.model.Tool;
 import com.rbinnovative.rentalotool.service.web.RentaloToolClient;
