@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +18,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.rbinnovative.rentalotool.R;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -33,13 +28,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = LoginActivity.class.getSimpleName();
 
-    private static final int REQUEST_SIGNUP = 0;
-    private static final String USERNAME = "username";
     private static final int RC_SIGN_IN = 0;
     private Snackbar snackbar;
 
-    //    @Inject
-//    ValidationService validationService;
     @BindView(R.id.sign_in_button)
     SignInButton signInButton;
     private GoogleSignInClient googleSignInClient;
@@ -47,13 +38,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // dagger
-//        ((MainApplication) getApplicationContext()).validationIoC.inject(this);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         snackbar = Snackbar.make(findViewById(R.id.sign_in_button), "Login, please wait .. ", Snackbar.LENGTH_INDEFINITE);
         prepareGoogleSignIn();
-//        _signupLink.setOnClickListener(v -> registerClicked());
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(this::signIn);
     }
@@ -89,13 +77,10 @@ public class LoginActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            // Signed in successfully, show authenticated UI.
             onLoginSuccess(account.toString());
         } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-//            updateUI(null);
+            onLoginFailed();
         }
     }
 

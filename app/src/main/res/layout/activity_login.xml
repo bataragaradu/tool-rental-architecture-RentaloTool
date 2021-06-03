@@ -14,12 +14,12 @@
         android:weightSum="1">
 
         <ImageView
-            android:layout_width="457dp"
+            android:layout_width="match_parent"
             android:layout_height="72dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
             android:layout_weight="0.61"
-            android:src="@drawable/logo"/>
+            android:src="@drawable/logorentalo"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

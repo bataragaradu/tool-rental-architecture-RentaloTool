@@ -18,7 +18,7 @@
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:background="@drawable/logo"
+            android:background="@drawable/logorentalo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.363"
             app:layout_constraintLeft_toLeftOf="parent"
