@@ -76,6 +76,7 @@ public class OrdersActivity extends AppCompatActivity {
                     }));
         } else if (id == R.id.orders_menu_item) {
             Intent orderActivityIntent = new Intent(this.getApplicationContext(), OrdersActivity.class);
+            orderActivityIntent.putExtra(ACTIVITY_MAPPING_USER_ID, currentUserId);
             startActivity(orderActivityIntent);
         }
         return super.onOptionsItemSelected(item);

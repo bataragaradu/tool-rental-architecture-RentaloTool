@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.util.Pair;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.CompositeDateValidator;
 import com.google.android.material.datepicker.DateValidatorPointBackward;
@@ -57,14 +60,14 @@ public class DetailedToolActivity extends AppCompatActivity {
     @BindView(R.id.details_tool_image)
     ImageView detailsToolImage;
     @BindView(R.id.details_tool_text)
-    TextView detailsToolText;
+    TextView toolName;
     @BindView(R.id.details_tools_description)
-    TextView detailsToolDescription;
+    TextView toolDescription;
     @BindView(R.id.imageView3)
     ImageView rentaloToolLogoImage;
     @Inject
     RentaloToolClient rentaloToolClient;
-
+    private GoogleSignInClient googleSignInClient;
     private String[] toolAvailability;
     private Tool tool;
     private String currentUserId;
@@ -75,12 +78,14 @@ public class DetailedToolActivity extends AppCompatActivity {
         ((MainApplication) getApplicationContext()).appComponent.inject(this);
         setContentView(R.layout.tool_detail_reservation);
         ButterKnife.bind(this);
+        prepareGoogleSignIn();
         if (getIntent().hasExtra(ACTIVITY_MAPPING_CURRENT_TOOL)) {
             this.tool = getIntent().getParcelableExtra(ACTIVITY_MAPPING_CURRENT_TOOL);
             Picasso.get()
                     .load(tool.getImageUrl())
                     .into(detailsToolImage);
-            this.detailsToolText.setText(tool.getName());
+            this.toolName.setText(tool.getName());
+            this.toolDescription.setText(tool.getDescription());
         }
         if (getIntent().hasExtra(ACTIVITY_MAPPING_USER_ID)) {
             this.currentUserId = (String) getIntent().getExtras().get(ACTIVITY_MAPPING_USER_ID);
@@ -90,7 +95,7 @@ public class DetailedToolActivity extends AppCompatActivity {
             toolsLandingActivityIntent.putExtra(ACTIVITY_MAPPING_USER_ID, currentUserId);
             startActivity(toolsLandingActivityIntent);
         });
-        prepareUi();
+        prepareUi(tool.getId());
     }
 
     @Override
@@ -102,23 +107,40 @@ public class DetailedToolActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.logout_menu_item) {
-            return true;
+            googleSignInClient.signOut()
+                    .addOnCompleteListener(this, task -> runOnUiThread(() -> {
+                        if (task.isSuccessful()) {
+                            Intent toolsLandingActivityIntent = new Intent(this.getApplicationContext(), LoginActivity.class);
+                            toolsLandingActivityIntent.putExtra(ACTIVITY_MAPPING_USER_ID, currentUserId);
+                            startActivity(toolsLandingActivityIntent);
+                        }
+                    }));
+        } else if (id == R.id.orders_menu_item) {
+            Intent orderActivityIntent = new Intent(this.getApplicationContext(), OrdersActivity.class);
+            orderActivityIntent.putExtra(ACTIVITY_MAPPING_USER_ID, currentUserId);
+            startActivity(orderActivityIntent);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void prepareUi() {
+    private void prepareUi(Integer id) {
         toolAvailability = new String[0];
-        rentaloToolClient.retrieveToolAvailability(3,
+        rentaloToolClient.retrieveToolAvailability(id,
                 ((successRetrievedTools) -> runOnUiThread(() -> toolAvailability = successRetrievedTools)),
                 ((failureRetrieved) -> runOnUiThread(() -> toolAvailability = failureRetrieved)));
         updateDateButton.setOnClickListener(v -> selectReservationDate());
         reservationButton.setOnClickListener(v -> makeReservation());
+    }
+
+    private void prepareGoogleSignIn() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     private void makeReservation() {

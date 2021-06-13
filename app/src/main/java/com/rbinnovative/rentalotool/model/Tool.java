@@ -12,11 +12,14 @@ public class Tool implements Parcelable {
     private String name;
     @SerializedName("imageUrl")
     private String imageUrl;
+    @SerializedName("description")
+    private String description;
 
-    public Tool(Integer id, String name, String imageUrl) {
+    public Tool(Integer id, String name, String imageUrl, String description) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
+        this.description = description;
     }
 
     protected Tool(Parcel in) {
@@ -27,6 +30,7 @@ public class Tool implements Parcelable {
         }
         name = in.readString();
         imageUrl = in.readString();
+        description = in.readString();
     }
 
     public static final Creator<Tool> CREATOR = new Creator<Tool>() {
@@ -80,5 +84,14 @@ public class Tool implements Parcelable {
         }
         dest.writeString(name);
         dest.writeString(imageUrl);
+        dest.writeString(description);
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
