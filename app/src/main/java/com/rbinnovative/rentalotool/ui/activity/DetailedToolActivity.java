@@ -106,7 +106,7 @@ public class DetailedToolActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.logout_menu_item) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -124,7 +124,11 @@ public class DetailedToolActivity extends AppCompatActivity {
     private void makeReservation() {
         Order order = new Order("pending", currentUserId, tool.getId(), LocalDate.now(), LocalDate.now());
         rentaloToolClient.makeReservation(order,
-                ((successRetrievedTools) -> runOnUiThread(() -> reservationButton.setEnabled(true))),
+                ((successRetrievedTools) -> runOnUiThread(() -> {
+                    Intent toolsLandingActivityIntent = new Intent(this.getApplicationContext(), LandingScrollingActivity.class);
+                    toolsLandingActivityIntent.putExtra(ACTIVITY_MAPPING_USER_ID, currentUserId);
+                    startActivity(toolsLandingActivityIntent);
+                })),
                 ((failureRetrieved) -> runOnUiThread(() -> reservationButton.setEnabled(false))));
     }
 

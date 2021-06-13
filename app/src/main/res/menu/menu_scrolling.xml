@@ -4,8 +4,14 @@
     android:id="@+id/action_settin2gs"
     tools:context="com.rbinnovative.rentalotool.ui.activity.LandingScrollingActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/orders_menu_item"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/orders_menu_item"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/logout_menu_item"
+        android:orderInCategory="100"
+        android:title="@string/logout_menu_item"
         app:showAsAction="never" />
 </menu>

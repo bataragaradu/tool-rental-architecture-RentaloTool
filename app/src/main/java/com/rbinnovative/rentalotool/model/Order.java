@@ -1,13 +1,22 @@
 package com.rbinnovative.rentalotool.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.time.LocalDate;
 
 
 public class Order {
+    @SerializedName("id")
+    private Integer id;
+    @SerializedName("status")
     private String status;
+    @SerializedName("userId")
     private String userId;
+    @SerializedName("toolId")
     private Integer toolId;
+    @SerializedName("startDate")
     private LocalDate startDate;
+    @SerializedName("endDate")
     private LocalDate endDate;
 
 
@@ -17,6 +26,24 @@ public class Order {
         this.toolId = toolId;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+
+    public Order( Integer id,String status, String userId, Integer toolId, LocalDate startDate, LocalDate endDate) {
+        this.id = id;
+        this.status = status;
+        this.userId = userId;
+        this.toolId = toolId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getStatus() {

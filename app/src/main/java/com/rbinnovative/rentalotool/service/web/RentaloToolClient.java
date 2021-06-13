@@ -7,6 +7,7 @@ import com.rbinnovative.rentalotool.model.Order;
 import com.rbinnovative.rentalotool.model.Tool;
 import com.rbinnovative.rentalotool.service.web.tasks.CreateReservationTask;
 import com.rbinnovative.rentalotool.service.web.tasks.RetrieveCategoryTask;
+import com.rbinnovative.rentalotool.service.web.tasks.RetrieveOrdersTask;
 import com.rbinnovative.rentalotool.service.web.tasks.RetrieveToolAvailabilityTask;
 import com.rbinnovative.rentalotool.service.web.tasks.RetrieveToolsByCategoryTask;
 import com.rbinnovative.rentalotool.service.web.tasks.RetrieveToolsTask;
@@ -45,5 +46,9 @@ public class RentaloToolClient  {
     //TODO: Orders client(Or big client)
     public void makeReservation(Order order, OnSuccessListener<Void> onSuccessCategoryProcessListener, OnErrorListener<Void> onErrorListener) {
         new CreateReservationTask(order, onSuccessCategoryProcessListener, onErrorListener).execute();
+    }
+
+    public void retrieveOrders(String userId, OnSuccessListener<Order[]> onSuccessCategoryProcessListener, OnErrorListener<Order[]> onErrorListener) {
+        new RetrieveOrdersTask(userId, onSuccessCategoryProcessListener, onErrorListener).execute();
     }
 }

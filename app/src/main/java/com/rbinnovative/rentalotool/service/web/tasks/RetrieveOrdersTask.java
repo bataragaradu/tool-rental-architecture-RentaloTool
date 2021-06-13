@@ -4,8 +4,8 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.rbinnovative.rentalotool.model.Category;
-import com.rbinnovative.rentalotool.service.web.api.ToolsApi;
+import com.rbinnovative.rentalotool.model.Order;
+import com.rbinnovative.rentalotool.service.web.api.OrdersApi;
 import com.rbinnovative.rentalotool.service.web.listeners.OnErrorListener;
 import com.rbinnovative.rentalotool.service.web.listeners.OnSuccessListener;
 import com.rbinnovative.rentalotool.service.web.serializer.LocalDateAdapter;
@@ -17,31 +17,36 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.rbinnovative.rentalotool.utils.Constants.TOOLS_API__URL;
+import static com.rbinnovative.rentalotool.utils.Constants.ORDERS_API__URL;
 
-public class RetrieveCategoryTask extends AsyncTask<Void, Void, Category[]> {
-    private final OnSuccessListener<Category[]> onSuccessListener;
-    private final OnErrorListener<Category[]> onErrorListener;
+public class RetrieveOrdersTask extends AsyncTask<Void, Void, Order[]> {
+    private final String userId;
+    private final OnSuccessListener<Order[]> onSuccessListener;
+    private final OnErrorListener<Order[]> onErrorListener;
 
-    public RetrieveCategoryTask(OnSuccessListener<Category[]> onSuccessListener, OnErrorListener<Category[]> onErrorListener) {
+    public RetrieveOrdersTask(String userId, OnSuccessListener<Order[]> onSuccessListener, OnErrorListener<Order[]> onErrorListener) {
+        this.userId = userId;
         this.onSuccessListener = onSuccessListener;
         this.onErrorListener = onErrorListener;
     }
 
 
     @Override
-    protected Category[] doInBackground(Void... voids) {
-        Category[] result = new Category[0];
+    protected Order[] doInBackground(Void... voids) {
+        Order[] result = new Order[0];
 
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateAdapter());
+        Gson gson = gsonBuilder.create();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(TOOLS_API__URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(ORDERS_API__URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-        ToolsApi service = retrofit.create(ToolsApi.class);
+        OrdersApi service = retrofit.create(OrdersApi.class);
 
         try {
-            Response<Category[]> response =
-                    service.getAllCategories().execute();
+            Response<Order[]> response =
+                    service.retrieveOrders(userId).execute();
             if (response.isSuccessful()) {
                 // success
                 result = response.body();

@@ -27,7 +27,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.rbinnovative.rentalotool.utils.Constants.ACTIVITY_MAPPING_CURRENT_TOOL;
 import static com.rbinnovative.rentalotool.utils.Constants.ACTIVITY_MAPPING_USER_ID;
 
 public class LandingScrollingActivity extends AppCompatActivity {
@@ -37,8 +36,6 @@ public class LandingScrollingActivity extends AppCompatActivity {
 
     @BindView(R.id.imageView3)
     ImageView rentaloToolLogoImage;
-//    @BindView(R.id.toolbar_layout)
-//    CollapsingToolbarLayout toolBarLayout;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.categoryVerticalRecyclerView)
@@ -90,19 +87,20 @@ public class LandingScrollingActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-//            return true;
+        if (id == R.id.logout_menu_item) {
             googleSignInClient.signOut()
                     .addOnCompleteListener(this, task -> runOnUiThread(() -> {
                         if (task.isSuccessful()) {
                             Intent toolsLandingActivityIntent = new Intent(this.getApplicationContext(), LoginActivity.class);
+                            toolsLandingActivityIntent.putExtra(ACTIVITY_MAPPING_USER_ID, currentUserId);
                             startActivity(toolsLandingActivityIntent);
                         }
                     }));
+        } else if (id == R.id.orders_menu_item) {
+            Intent orderActivityIntent = new Intent(this.getApplicationContext(), OrdersActivity.class);
+            orderActivityIntent.putExtra(ACTIVITY_MAPPING_USER_ID, currentUserId);
+            startActivity(orderActivityIntent);
         }
         return super.onOptionsItemSelected(item);
     }
