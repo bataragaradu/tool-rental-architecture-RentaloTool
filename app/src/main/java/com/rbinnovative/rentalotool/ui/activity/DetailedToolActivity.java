@@ -22,6 +22,7 @@ import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.rbinnovative.rentalotool.R;
 import com.rbinnovative.rentalotool.model.Order;
+import com.rbinnovative.rentalotool.model.RentalDatePick;
 import com.rbinnovative.rentalotool.model.Tool;
 import com.rbinnovative.rentalotool.service.web.RentaloToolClient;
 import com.rbinnovative.rentalotool.ui.validator.RestrictiveDateValidator;
@@ -145,7 +146,7 @@ public class DetailedToolActivity extends AppCompatActivity {
     }
 
     private void makeReservation() {
-        Order order = new Order("pending", currentUserId, tool.getId(), LocalDate.now(), LocalDate.now());
+        Order order = new Order("pending", currentUserId, tool.getId(),rentalDatePick.getStartDate(), rentalDatePick.getEndDate());
         rentaloToolClient.makeReservation(order,
                 ((successRetrievedTools) -> runOnUiThread(() -> {
                     Intent toolsLandingActivityIntent = new Intent(this.getApplicationContext(), LandingScrollingActivity.class);
@@ -173,8 +174,9 @@ public class DetailedToolActivity extends AppCompatActivity {
         pickerRange.addOnPositiveButtonClickListener(selection -> {
             LocalDate startDate = Instant.ofEpochMilli(selection.first).atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate endDate = Instant.ofEpochMilli(selection.second).atZone(ZoneId.systemDefault()).toLocalDate();
-            dateValueTextView.setText("Rental starts: " + (startDate.getDayOfMonth()) + "/" + startDate.getMonth() + "/" + startDate.getYear());
-            dateValueMaxValueSelected.setText("Rental ends: " + (endDate.getDayOfMonth()) + "/" + endDate.getMonth() + "/" + endDate.getYear());
+            dateValueTextView.setText("Rental starts: " + startDate.getDayOfMonth() + "/" + startDate.getMonth() + "/" + startDate.getYear());
+            dateValueMaxValueSelected.setText("Rental ends: " + endDate.getDayOfMonth() + "/" + endDate.getMonth() + "/" + endDate.getYear());
+            rentalDatePick = new RentalDatePick(startDate, endDate);
             reservationButton.setEnabled(true);
         });
     }
