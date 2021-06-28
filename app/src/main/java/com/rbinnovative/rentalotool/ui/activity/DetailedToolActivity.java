@@ -33,6 +33,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -160,7 +161,8 @@ public class DetailedToolActivity extends AppCompatActivity {
         CalendarConstraints constraints = new CalendarConstraints.Builder()
                 .setValidator(validators)
                 .setStart(System.currentTimeMillis())
-                .setEnd(System.currentTimeMillis())
+                .setEnd(LocalDateTime.now().plusMonths(1)
+                        .atZone(ZoneId.ofOffset("UTC", ZoneOffset.UTC)).toInstant().toEpochMilli())
                 .build();
 
         MaterialDatePicker<Pair<Long, Long>> pickerRange = MaterialDatePicker.Builder.dateRangePicker()
@@ -181,7 +183,7 @@ public class DetailedToolActivity extends AppCompatActivity {
         //TOOD: fix date bug for last day
         LocalTime localHour = LocalTime.of(1, 1, 1);
         long minDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue(), 1), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        long maxDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue(), LocalDate.now().lengthOfMonth()), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long maxDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue() +1, LocalDate.now().lengthOfMonth()), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
         ArrayList<CalendarConstraints.DateValidator> listValidators =
                 new ArrayList<>();
