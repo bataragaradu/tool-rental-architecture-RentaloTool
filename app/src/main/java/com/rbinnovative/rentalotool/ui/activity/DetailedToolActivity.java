@@ -55,6 +55,7 @@ public class DetailedToolActivity extends AppCompatActivity {
     TextView dateValueTextView;
     @BindView(R.id.dateMaxValueSelected)
     TextView dateValueMaxValueSelected;
+    private RentalDatePick rentalDatePick;
     @BindView(R.id.update_date_button)
     Button updateDateButton;
     @BindView(R.id.reservationButton)
@@ -184,7 +185,7 @@ public class DetailedToolActivity extends AppCompatActivity {
     private CalendarConstraints.DateValidator createValidators() {
         //TOOD: fix date bug for last day
         LocalTime localHour = LocalTime.of(1, 1, 1);
-        long minDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue(), 1), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long minDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue(), LocalDate.now().getDayOfMonth()), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         long maxDate = LocalDateTime.of(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue() +1, LocalDate.now().lengthOfMonth()), localHour).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
         ArrayList<CalendarConstraints.DateValidator> listValidators =
